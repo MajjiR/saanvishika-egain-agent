@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saanvishika Owner Desk</title>
+<style>
+  :root { --bg:#faf7f2; --fg:#2b2118; --muted:#7a6a5c; --card:#fff; --line:#e8dfd3; --accent:#8a5a2b; --ok:#2f7d4f; --warn:#b7791f; --bad:#b03a2e; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+  header { padding:16px; border-bottom:1px solid var(--line); background:var(--card); display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  h1 { font-size:18px; margin:0; flex:1; }
+  input { padding:8px; border:1px solid var(--line); border-radius:6px; }
+  main { padding:16px; max-width:1000px; margin:auto; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:16px; }
+  .tile { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; }
+  .tile b { display:block; font-size:24px; }
+  .row { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; margin-bottom:8px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .row .main { flex:1; min-width:220px; }
+  .muted { color:var(--muted); font-size:13px; }
+  .badge { font-size:12px; padding:2px 8px; border-radius:99px; border:1px solid currentColor; }
+  .s-issued,.s-replacement_approved,.s-booked,.s-cancelled,.s-approved_by_owner { color:var(--ok); }
+  .s-pending_owner,.s-human_review { color:var(--warn); }
+  .s-escalated,.s-declined_by_owner { color:var(--bad); }
+  button { padding:6px 12px; border-radius:6px; border:1px solid var(--accent); background:var(--accent); color:#fff; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Saanvishika Owner Desk <span class="muted">· fictional demo data</span></h1>
+  <input id="key" placeholder="Owner key" aria-label="Owner key">
+  <button onclick="load()">Load</button>
+</header>
+<main>
+  <div class="tiles" id="tiles"></div>
+  <div id="list"><p class="muted">Enter the owner key to see quotes, claims and callbacks created by the agent.</p></div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+try { $('#key').value = localStorage.getItem('ownerKey') || ''; } catch (e) {}
+async function load() {
+  const key = $('#key').value.trim();
+  try { localStorage.setItem('ownerKey', key); } catch (e) {}
+  const r = await fetch('/owner/api/records?key=' + encodeURIComponent(key));
+  if (!r.ok) { $('#list').innerHTML = '<p class="muted">Wrong key.</p>'; return; }
+  const { records } = await r.json();
+  const count = (f) => records.filter(f).length;
+  const quotes = records.filter(x => x.id.startsWith('WQ'));
+  const value = quotes.reduce((a, q) => a + (q.total || 0), 0);
+  $('#tiles').innerHTML = [
+    ['Wholesale quotes', quotes.length],
+    ['Quote value', '₹' + value.toLocaleString('en-IN')],
+    ['Needs your approval', count(x => x.status === 'pending_owner')],
+    ['Claims', count(x => x.id.startsWith('CL'))],
+    ['Callbacks', count(x => x.id.startsWith('CB'))],
+  ].map(([l, v]) => `<div class="tile"><span class="muted">${l}</span><b>${v}</b></div>`).join('');
+  $('#list').innerHTML = records.map(x => {
+    const title = x.id.startsWith('WQ')
+      ? `${x.quantity} x ${esc(x.product)} · ${x.tier_discount}% tier · ₹${(x.total||0).toLocaleString('en-IN')}` + (x.requested_discount ? ` · asked ${x.requested_discount}%` : '')
+      : x.id.startsWith('CL') ? `Claim on ${x.order_id}: ${esc(x.issue || '')}`
+      : x.id.startsWith('CB') ? `Callback ···${x.phone_last4} · ${esc(x.topic)} · ${esc(x.summary || '')}`
+      : `Cancellation ${x.order_id}`;
+    const actions = x.status === 'pending_owner'
+      ? `<button onclick="decide('${x.id}','approve')">Approve</button><button class="ghost" onclick="decide('${x.id}','decline')">Decline</button>` : '';
+    return `<div class="row"><div class="main"><b>${x.id}</b> ${title}<div class="muted">${esc(x.buyer || x.name || '')} ${esc(x.city || '')} · ${x.created}</div></div>
+      <span class="badge s-${x.status}">${x.status.replace(/_/g, ' ')}</span>${actions}</div>`;
+  }).join('') || '<p class="muted">Nothing yet.</p>';
+}
+async function decide(id, d) {
+  await fetch(`/owner/api/quotes/${id}/${d}?key=` + encodeURIComponent($('#key').value.trim()), { method: 'POST' });
+  load();
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
+setInterval(() => { if ($('#key').value) load(); }, 5000);
+</script>
+</body>
+</html>
