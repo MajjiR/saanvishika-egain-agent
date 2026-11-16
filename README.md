@@ -1,66 +1,90 @@
-# Saanvi: the Saanvishika jewellery assistant (eGain AI Agent)
+# DeskZero: the AI ops desk for D2C brands
 
-An eGain AI Agent for **The Saanvishika Co**, a real imitation-jewellery brand that sells retail on
-[saanvishika.co](https://saanvishika.co) and wholesale over WhatsApp. One agent serves two customers:
+**Only what truly needs a human reaches your team.**
 
-- **Retail shoppers:** policy-grounded answers, order status, cancellations, damage claims.
-- **Wholesale buyers:** instant tiered quotes with a quote number, counter-offers, and owner approval
-  for anything above the agent's limit.
+DeskZero is an eGain AI Agent for direct-to-consumer brands that sell both retail and wholesale. Every customer
+message is triaged against the brand's own rules: the agent **solves** what it can, **filters** what policy does
+not allow, and **routes** the rest to exactly one owner on the team, with the alert that person needs.
 
-All orders, buyers and claims in this demo are **fictional**. Product names and prices come from the
-public catalogue; policies come from the brand's published pages.
+Demo brand: **Mayura Boutique**, a fictional D2C jewellery store (all orders, people and contacts are demo data).
 
-## How it fits together
+| | Link |
+|---|---|
+| Live agent (eGain demo link) | see [`docs/links.md`](docs/links.md) |
+| Demo storefront | https://mayura-boutique-demo.vercel.app |
+| Ops Console (team view) | https://saanvishika-agent-actions.onrender.com/ops |
+| Try-it scenarios | [`docs/demo-scenarios.md`](docs/demo-scenarios.md) |
+
+## What it handles
+
+| Customer says | DeskZero does |
+|---|---|
+| "Where is my order?" | Looks up courier, tracking and ETA (verified by order number + last 4 phone digits) |
+| "It arrived damaged" without an unboxing video | Explains the policy kindly; **filtered**, nobody is pinged |
+| "It arrived damaged", video, low value | Approves a replacement instantly |
+| Expensive order, repeat claimant | Registers the claim and routes it for human review |
+| "I got a rash" | No medical advice; urgent to Support, copied to Manager and Manufacturing |
+| "Deliver before Friday" | Raises a courier ticket with the vendor and alerts Logistics |
+| "Cancel my order" | Cancels before dispatch; politely refuses after |
+| "30 pieces at 20% off?" | Counter-offers the allowed tier and shows how many more pieces unlock the next |
+| "100 pieces at 35%?" | "Let me check with my team"; quote waits in the Manager's approval queue |
+| "5,000 pieces for my 12 stores" | Hands over to the wholesale sales lead (email + WhatsApp), copies Manager and Manufacturing |
+| "20 of a sold-out design" | Logs a restock request for Manufacturing and suggests an in-stock alternative |
+| Product, shipping, care questions | Answers from the brand's published policies |
+
+## How it is built
 
 ```
-Customer → eGain AI Agent (knowledge, intents, pre-chat, process + escalation workflows)
-              │  Custom API actions (HTTPS + X-API-Key)
-              ▼
-         This service (FastAPI): rules.py decides prices and eligibility
-              │
-              ▼
-         Owner Desk (/owner): approve or decline quotes above the limit
+Customer ─▶ eGain AI Agent "Mira"
+             · knowledge: 6 policy pages, generated intents
+             · pre-chat: retail or wholesale, then the question
+             · process workflow: guided wholesale quote (linked to an intent)
+             · escalation: phone, email, cannot-answer fallback
+             · 4 custom actions ─────────────┐
+                                             ▼
+                      DeskZero Actions API (FastAPI)
+                      rules.py decides prices, eligibility, routing
+                                             │
+                                             ▼
+                      Ops Console: categories, routing board, approvals, alerts outbox
 ```
 
-Rules live in [`app/rules.py`](app/rules.py), not in the prompt, so the agent cannot be talked past them.
+Prices, discount limits, claim windows and routing live in [`app/rules.py`](app/rules.py), not in the prompt, so
+the agent cannot be talked past them.
 
-## Actions
+### Team routing (demo roster)
+Customer Support · Orders & Returns · Logistics · Wholesale Sales · Operations Manager (approvals, repeat
+claimants) · Vendors & Courier · Manufacturing & QC (restock, product defects, material complaints).
 
-| Endpoint | What it does | `result` values |
-|---|---|---|
-| `POST /v1/wholesale/quote` | product + quantity (+ requested discount) → tier price and quote ID | `quote_issued`, `counter_offer`, `owner_approval`, `below_minimum`, `ambiguous`, `not_found`, `out_of_stock`, `need_quantity` |
-| `GET /v1/quotes/{id}` | quote status after the owner decides | `issued`, `pending_owner`, `approved_by_owner`, `declined_by_owner` |
-| `GET /v1/products/search` | query + max price → top 3 in-stock pieces | `found`, `none` |
-| `POST /v1/orders/status` | order ID + last 4 phone digits | `processing`, `shipped`, `delivered`, `not_found` |
-| `POST /v1/orders/cancel` | cancels only before dispatch | `cancelled`, `not_cancellable`, `not_found` |
-| `POST /v1/claims` | damage, defect or wrong item → checks window and video | `replacement_approved`, `need_video`, `outside_window`, `human_review`, `escalate`, `not_eligible`, `need_issue` |
-| `POST /v1/callbacks` | books a callback with a conversation summary | `booked`, `need_phone` |
+### Actions API
+| Endpoint | Purpose |
+|---|---|
+| `GET /v1/wholesale/quote` | Three-tier negotiation: auto quote, team approval, human takeover; restock on sold-out items |
+| `GET /v1/claims` | Damage, defect, wrong item or skin reaction triage (window, video, value, history) |
+| `GET /v1/orders/status` | Courier, tracking and ETA |
+| `GET /v1/logistics/expedite` | Courier ticket or priority packing |
+| `GET /v1/orders/cancel` | Cancel before dispatch |
+| `GET /v1/callbacks` | Book a callback with the right team |
+| `GET /v1/import?url=` | Read a Shopify store's catalogue and policies to draft the agent's knowledge |
 
-Parameters may be sent as query string or JSON body. Every response carries `result` (to branch on)
-and `message` (to show the customer). `order_id=SV0000` returns a 503 so the error path can be tested.
+Every response returns `result` (for the workflow to branch on) and `message` (for the agent to relay).
+API docs: https://saanvishika-agent-actions.onrender.com/docs
 
-### Test orders (fictional)
-
-| Order | Last 4 digits | State |
-|---|---|---|
-| SV1001 | 1111 | shipped |
-| SV1002 | 2222 | delivered 20 hours ago (claim approves) |
-| SV1003 | 3333 | delivered 10 days ago (outside window) |
-| SV1004 | 4444 | processing (can cancel) |
-| SV1005 | 5555 | ₹4,999 order (claim goes to a person) |
-| SV1006 | 6666 | repeat claimant (claim goes to a person) |
-
-## Run
+## Run locally
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt pytest httpx
-.venv/bin/uvicorn app.main:app --reload
+.venv/bin/uvicorn app.main:app --reload        # Ops Console at http://127.0.0.1:8000/ops
 .venv/bin/python -m pytest -q
 ```
 
-Environment: `API_KEY` (required header `X-API-Key` on `/v1/*` when set), `OWNER_KEY` (Owner Desk), `DB_PATH`.
+## Repository
+- `app/` actions API, rules, demo catalogue and test orders
+- `web/ops.html` Ops Console
+- `kb/` knowledge pages uploaded to the eGain agent
+- `storefront/` demo store (Vercel) and its generator
+- `docs/` live links, eGain configuration, try-it scenarios
+- `tests/` API tests
 
-## Disclosure
-
-Built for the eGain AI Agent Hackathon (November 2026). Code and knowledge pages were written for this
-entry with AI assistance. No templates or third-party code beyond FastAPI and Uvicorn.
+Built for the eGain AI Agent Hackathon, November 2026. Code written with AI assistance. Product photography is
+used with the permission of the D2C jewellery brand that inspired the demo.

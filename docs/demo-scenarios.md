@@ -1,4 +1,4 @@
-# DeskZero demo scenarios (hands-on)
+# Try DeskZero yourself
 
 Open two windows side by side:
 1. **Demo link** (Mira on the Mayura Boutique store), see `links.md`.
@@ -59,8 +59,6 @@ After B4, click **Approve** in the Founder lane: the quote status changes for th
 - "Plug in your store": paste a Shopify store address and it reads the catalogue and policies and drafts the
   agent's knowledge.
 
-## Honest limits
-- Alerts are recorded, not actually sent.
-- Restock requests are demonstrated through the wholesale quote; a retail "tell me when it's back" question is
-  answered from knowledge only.
-- Data resets when the API redeploys.
+## Notes
+- Email and WhatsApp alerts are shown in the Ops Console outbox; delivery is simulated in this demo.
+- Demo data resets when the API is redeployed; use **Load sample day** in the Ops Console for a full day of tickets.

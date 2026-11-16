@@ -1,7 +1,7 @@
 """Business rules for the DeskZero demo brand, Mayura Boutique (fictional).
 
 Every number the agent may promise lives here, not in the chat prompt, so a customer
-cannot talk the AI past it. A real brand edits this file; nothing else changes.
+cannot talk the AI past it. A brand edits this file; nothing else changes.
 """
 
 BRAND = "Mayura Boutique"
