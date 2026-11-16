@@ -7,122 +7,201 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#0f1115; --panel:#171a21; --line:#262b36; --fg:#e8eaf0; --muted:#8b93a7; --accent:#d4a24c;
-          --ok:#3fb27f; --filter:#7c8aa5; --warn:#e3a23a; --bad:#e5534b; --chip:#1f2430; }
+  :root { --bg:#f4f5f7; --panel:#fff; --line:#e6e8ec; --fg:#14171f; --muted:#6b7280; --side:#11131a; --sidefg:#c9ced8;
+          --accent:#b8862f; --ok:#16a34a; --okbg:#e8f6ee; --filter:#64748b; --filterbg:#eef1f5; --esc:#d97706; --escbg:#fdf3e3;
+          --bad:#dc2626; --badbg:#fdeaea; --blue:#2563eb; --bluebg:#e8efff; }
   * { box-sizing:border-box; }
-  body { margin:0; font:14px/1.45 Inter, system-ui, sans-serif; background:var(--bg); color:var(--fg); }
-  header { padding:18px 20px; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
-  .logo { font-weight:700; font-size:18px; letter-spacing:-.01em; }
+  body { margin:0; font:13.5px/1.45 Inter, system-ui, sans-serif; background:var(--bg); color:var(--fg); display:grid; grid-template-columns:232px 1fr; min-height:100vh; }
+  aside { background:var(--side); color:var(--sidefg); padding:18px 14px; position:sticky; top:0; height:100vh; overflow:auto; }
+  .logo { font-weight:700; font-size:20px; color:#fff; letter-spacing:-.02em; }
   .logo span { color:var(--accent); }
-  .tag { color:var(--muted); font-size:13px; flex:1; min-width:220px; }
-  .demo { font-size:11px; border:1px solid var(--accent); color:var(--accent); padding:2px 8px; border-radius:99px; }
-  main { padding:16px 20px 40px; max-width:1300px; margin:auto; }
-  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px; }
-  .tile { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
-  .tile b { display:block; font-size:28px; font-weight:700; letter-spacing:-.02em; }
-  .tile small { color:var(--muted); }
-  .hero b { color:var(--accent); }
-  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:18px 0 8px; font-weight:600; }
-  .board { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; }
-  .lane { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px; min-height:120px; }
-  .lane h3 { margin:0 0 8px; font-size:13px; display:flex; justify-content:space-between; }
-  .lane h3 small { color:var(--muted); font-weight:400; }
-  .card { background:var(--chip); border-radius:8px; padding:8px 10px; margin-bottom:6px; font-size:12.5px; border-left:3px solid var(--warn); }
-  .card.urgent,.card.high { border-left-color:var(--bad); }
-  .card .meta { color:var(--muted); font-size:11px; margin-top:3px; }
-  .card button { margin-top:6px; margin-right:4px; font:inherit; font-size:11.5px; padding:3px 9px; border-radius:6px; cursor:pointer;
-                 border:1px solid var(--accent); background:var(--accent); color:#111; }
-  .card button.ghost { background:transparent; color:var(--accent); }
-  .cols { display:grid; grid-template-columns:1.4fr 1fr; gap:12px; }
-  @media (max-width:900px){ .cols { grid-template-columns:1fr; } }
-  .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
-  .row { padding:8px 12px; border-bottom:1px solid var(--line); display:flex; gap:10px; align-items:flex-start; font-size:12.5px; }
-  .row:last-child { border-bottom:0; }
-  .pill { font-size:10.5px; padding:1px 8px; border-radius:99px; white-space:nowrap; border:1px solid currentColor; }
-  .auto_resolved { color:var(--ok); } .filtered { color:var(--filter); }
-  .escalated,.awaiting_team,.human_takeover,.approved,.declined { color:var(--warn); }
-  .row .id { color:var(--muted); font-variant-numeric:tabular-nums; min-width:62px; }
-  .row .txt { flex:1; }
-  .ch { font-size:11px; color:var(--accent); min-width:70px; }
-  .import { display:flex; gap:8px; flex-wrap:wrap; padding:12px; }
-  .import input { flex:1; min-width:220px; padding:9px 10px; border-radius:8px; border:1px solid var(--line); background:var(--chip); color:var(--fg); font:inherit; }
-  .import button { padding:9px 14px; border-radius:8px; border:0; background:var(--accent); color:#111; font-weight:600; cursor:pointer; font:inherit; }
-  #importOut { padding:0 12px 12px; color:var(--muted); font-size:12.5px; }
-  .empty { color:var(--muted); font-size:12px; padding:8px 2px; }
+  .tagl { font-size:11.5px; color:#8a92a3; margin:4px 0 18px; }
+  .brand { background:#1b1e27; border:1px solid #262a35; border-radius:8px; padding:10px; font-size:12px; margin-bottom:18px; }
+  .brand b { color:#fff; display:block; font-size:13px; }
+  .navh { font-size:10.5px; letter-spacing:.12em; color:#6b7280; margin:14px 6px 6px; text-transform:uppercase; }
+  .nav a { display:flex; justify-content:space-between; padding:8px 10px; border-radius:6px; color:var(--sidefg); text-decoration:none; font-size:13px; }
+  .nav a.on, .nav a:hover { background:#1f2330; color:#fff; }
+  .nav a em { font-style:normal; background:#2a2f3d; border-radius:99px; padding:0 8px; font-size:11px; }
+  .chan { display:flex; align-items:center; gap:8px; padding:5px 10px; font-size:12.5px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--ok); box-shadow:0 0 0 3px #16a34a33; }
+  .dot.sim { background:var(--esc); box-shadow:0 0 0 3px #d9770633; }
+  main { padding:18px 22px 40px; min-width:0; }
+  .top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  .top h1 { font-size:20px; margin:0; flex:1; letter-spacing:-.01em; }
+  .top h1 small { display:block; font-size:12.5px; color:var(--muted); font-weight:400; margin-top:2px; }
+  .live { font-size:12px; color:var(--ok); display:flex; align-items:center; gap:6px; }
+  .btn { border:1px solid var(--line); background:#fff; padding:8px 13px; border-radius:7px; font:inherit; font-weight:500; cursor:pointer; }
+  .btn.pri { background:var(--fg); color:#fff; border-color:var(--fg); }
+  .kpis { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:14px; }
+  .kpi { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:13px 14px; }
+  .kpi small { color:var(--muted); font-size:12px; }
+  .kpi b { display:block; font-size:26px; letter-spacing:-.02em; margin-top:2px; }
+  .kpi i { font-style:normal; font-size:11.5px; color:var(--muted); }
+  @media (max-width:1200px){ .kpis{grid-template-columns:repeat(3,1fr)} }
+  .row { display:grid; gap:14px; margin-bottom:14px; }
+  .r2 { grid-template-columns:1.25fr 1fr; } .r3 { grid-template-columns:1.6fr 1fr; }
+  @media (max-width:1100px){ .r2,.r3{grid-template-columns:1fr} body{grid-template-columns:1fr} aside{position:static;height:auto} }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .card h2 { font-size:13.5px; margin:0; padding:12px 14px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; }
+  .card h2 small { color:var(--muted); font-weight:400; font-size:12px; }
+  .body { padding:12px 14px; }
+  .cat { display:grid; grid-template-columns:150px 1fr 34px; gap:10px; align-items:center; margin:7px 0; font-size:12.5px; }
+  .bar { height:10px; background:#f0f1f4; border-radius:99px; overflow:hidden; display:flex; }
+  .bar span { height:100%; } .b-auto{background:var(--ok)} .b-fil{background:#94a3b8} .b-esc{background:var(--esc)}
+  .legend { display:flex; gap:14px; font-size:11.5px; color:var(--muted); margin-top:10px; }
+  .legend i { display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+  .route { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .dest { border:1px solid var(--line); border-radius:8px; padding:10px; position:relative; }
+  .dest b { font-size:13px; } .dest small { display:block; color:var(--muted); font-size:11.5px; }
+  .dest .n { position:absolute; right:10px; top:10px; font-size:20px; font-weight:700; }
+  .dest.hot { border-color:#f2c98a; background:#fffaf2; } .dest.hot .n { color:var(--esc); }
+  .dest .tagx { display:inline-block; font-size:10.5px; padding:1px 7px; border-radius:99px; background:var(--bluebg); color:var(--blue); margin-top:4px; }
+  .chips { display:flex; gap:6px; flex-wrap:wrap; padding:10px 14px; border-bottom:1px solid var(--line); }
+  .chip { border:1px solid var(--line); background:#fff; border-radius:99px; padding:4px 11px; font:inherit; font-size:12px; cursor:pointer; }
+  .chip.on { background:var(--fg); color:#fff; border-color:var(--fg); }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th { text-align:left; font-weight:600; color:var(--muted); font-size:11.5px; padding:9px 12px; border-bottom:1px solid var(--line); background:#fafbfc; white-space:nowrap; }
+  td { padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tr:last-child td { border-bottom:0; }
+  .tw { max-height:430px; overflow:auto; }
+  .id { color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .pill { display:inline-block; font-size:11px; padding:2px 8px; border-radius:99px; white-space:nowrap; font-weight:500; }
+  .auto_resolved { background:var(--okbg); color:var(--ok); } .filtered { background:var(--filterbg); color:var(--filter); }
+  .escalated, .awaiting_team, .human_takeover { background:var(--escbg); color:var(--esc); }
+  .approved { background:var(--okbg); color:var(--ok); } .declined { background:var(--badbg); color:var(--bad); }
+  .sev { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; }
+  .sev.low{color:#94a3b8} .sev.medium{color:var(--esc)} .sev.high{color:var(--bad)} .sev.urgent{color:#fff;background:var(--bad);padding:1px 6px;border-radius:4px}
+  .to { white-space:nowrap; } .to small { display:block; color:var(--muted); font-size:11px; }
+  .appr { padding:10px 14px; border-bottom:1px solid var(--line); font-size:12.5px; }
+  .appr:last-child { border-bottom:0; }
+  .appr button { margin:7px 6px 0 0; padding:5px 12px; border-radius:6px; border:1px solid var(--fg); background:var(--fg); color:#fff; font:inherit; font-size:12px; cursor:pointer; }
+  .appr button.g { background:#fff; color:var(--fg); }
+  .alert { display:flex; gap:10px; padding:9px 14px; border-bottom:1px solid var(--line); font-size:12.5px; }
+  .alert:last-child { border-bottom:0; }
+  .ch { font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:4px; height:max-content; white-space:nowrap; }
+  .ch.email { background:var(--bluebg); color:var(--blue); } .ch.whatsapp { background:var(--okbg); color:var(--ok); }
+  .alert small { color:var(--muted); display:block; }
+  .empty { color:var(--muted); padding:16px 14px; font-size:12.5px; }
+  .imp { display:flex; gap:8px; padding:12px 14px; flex-wrap:wrap; }
+  .imp input { flex:1; min-width:220px; padding:9px 11px; border:1px solid var(--line); border-radius:7px; font:inherit; }
+  #impOut { padding:0 14px 12px; color:var(--muted); font-size:12.5px; }
 </style>
 </head>
 <body>
-<header>
+<aside>
   <div class="logo">Desk<span>Zero</span></div>
-  <div class="tag">The AI ops desk for D2C brands. Only what truly needs a human reaches your team.</div>
-  <span class="demo">DEMO · Mayura Boutique (fictional)</span>
-</header>
+  <div class="tagl">AI ops desk for D2C brands</div>
+  <div class="brand"><b>Mayura Boutique</b>Fictional demo brand · 7-person team</div>
+  <div class="navh">Workspace</div>
+  <nav class="nav">
+    <a class="on" href="#overview">Overview</a>
+    <a href="#tickets">Ticket queue <em id="n-open">0</em></a>
+    <a href="#approvals">Approvals <em id="n-appr">0</em></a>
+    <a href="#routing">Escalation routing</a>
+    <a href="#outbox">Alerts outbox <em id="n-alerts">0</em></a>
+    <a href="#import">Store import</a>
+  </nav>
+  <div class="navh">Connected channels</div>
+  <div class="chan"><span class="dot"></span>eGain AI Agent (Mira)</div>
+  <div class="chan"><span class="dot"></span>Website chat</div>
+  <div class="chan"><span class="dot sim"></span>Email routing (simulated)</div>
+  <div class="chan"><span class="dot sim"></span>WhatsApp routing (simulated)</div>
+  <div class="chan"><span class="dot sim"></span>SwiftShip courier (demo)</div>
+  <div class="chan"><span class="dot sim"></span>Shopify catalogue import</div>
+</aside>
 <main>
-  <div class="tiles">
-    <div class="tile"><small>Customer requests</small><b id="t-total">0</b></div>
-    <div class="tile"><small>Solved by the agent</small><b id="t-auto" style="color:var(--ok)">0</b></div>
-    <div class="tile"><small>Filtered by policy</small><b id="t-filtered" style="color:var(--filter)">0</b></div>
-    <div class="tile"><small>Escalated to a person</small><b id="t-esc" style="color:var(--warn)">0</b></div>
-    <div class="tile hero"><small>Noise kept off your team</small><b id="t-noise">0%</b></div>
+  <div class="top" id="overview">
+    <h1>Operations overview<small>Every customer message triaged: solved, filtered by policy, or routed to exactly one owner.</small></h1>
+    <span class="live"><span class="dot"></span>Live · refreshes every 3s</span>
+    <button class="btn" onclick="act('/ops/api/sample-day')">Load sample day</button>
+    <button class="btn" onclick="if(confirm('Clear all demo data?'))act('/ops/api/reset')">Reset</button>
   </div>
 
-  <h2>Team board: who owns what right now</h2>
-  <div class="board" id="board"></div>
+  <div class="kpis">
+    <div class="kpi"><small>Customer requests</small><b id="k-total">0</b><i>today</i></div>
+    <div class="kpi"><small>Resolved by AI</small><b id="k-auto" style="color:var(--ok)">0</b><i id="k-autop">0%</i></div>
+    <div class="kpi"><small>Filtered by policy</small><b id="k-fil" style="color:var(--filter)">0</b><i>no human needed</i></div>
+    <div class="kpi"><small>Escalated to a person</small><b id="k-esc" style="color:var(--esc)">0</b><i id="k-escp">0%</i></div>
+    <div class="kpi"><small>Awaiting approval</small><b id="k-appr">0</b><i>deals above limit</i></div>
+    <div class="kpi"><small>Team time saved</small><b id="k-saved">0h</b><i>at ~6 min per message</i></div>
+  </div>
 
-  <div class="cols">
-    <div>
-      <h2>Live triage feed</h2>
-      <div class="panel" id="feed"><div class="row empty">Waiting for the first customer…</div></div>
+  <div class="row r2">
+    <div class="card"><h2>Requests by category <small>what customers asked today</small></h2><div class="body" id="cats"></div></div>
+    <div class="card" id="routing"><h2>Escalation routing <small>open items by owner</small></h2><div class="body"><div class="route" id="route"></div></div></div>
+  </div>
+
+  <div class="row r3">
+    <div class="card" id="tickets"><h2>Ticket queue <small id="tcount"></small></h2>
+      <div class="chips" id="chips"></div>
+      <div class="tw"><table><thead><tr><th>ID</th><th>Category</th><th>Customer request</th><th>AI decision</th><th>Severity</th><th>Routed to</th></tr></thead><tbody id="rows"></tbody></table></div>
     </div>
     <div>
-      <h2>Outbox: alerts routed to the team</h2>
-      <div class="panel" id="outbox"><div class="row empty">No escalations yet. That's the point.</div></div>
-      <h2>Plug in your store</h2>
-      <div class="panel">
-        <div class="import">
-          <input id="storeUrl" placeholder="https://your-store.myshopify.com" aria-label="Store URL">
-          <button onclick="importStore()">Import</button>
-        </div>
-        <div id="importOut">Reads your Shopify catalogue and policies and drafts the agent's knowledge in seconds.</div>
-      </div>
+      <div class="card" id="approvals" style="margin-bottom:14px"><h2>Approvals needed <small>escalate to manager</small></h2><div id="appr"></div></div>
+      <div class="card" id="outbox"><h2>Alerts outbox <small>email &amp; WhatsApp to the owner</small></h2><div id="alerts" class="tw" style="max-height:300px"></div></div>
     </div>
+  </div>
+
+  <div class="card" id="import"><h2>Plug in your store <small>Shopify catalogue &amp; policies → agent knowledge</small></h2>
+    <div class="imp"><input id="url" placeholder="https://your-store.myshopify.com" aria-label="Store URL"><button class="btn pri" onclick="imp()">Import store</button></div>
+    <div id="impOut">Reads your public catalogue and policy pages and drafts the knowledge pages and actions for review.</div>
   </div>
 </main>
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const LABEL = { auto_resolved:'solved by agent', filtered:'filtered', escalated:'escalated', awaiting_team:'needs approval',
-                human_takeover:'human takeover', approved:'approved', declined:'declined' };
+const LABEL = { auto_resolved:'Resolved by AI', filtered:'Filtered by policy', escalated:'Escalated', awaiting_team:'Needs approval',
+                human_takeover:'Human takeover', approved:'Approved', declined:'Declined' };
+const ROUTE_ORDER = ['support','orders','logistics','sales','manager','vendor','manufacturing'];
+const ROUTE_TAG = { manager:'Escalate to manager', vendor:'Talk to vendor', manufacturing:'Talk to manufacturing' };
+let filter = 'All', data = null;
 async function load() {
-  let d; try { d = await (await fetch('/ops/api/feed')).json(); } catch (e) { return; }
-  const s = d.stats;
-  $('#t-total').textContent = s.total; $('#t-auto').textContent = s.auto;
-  $('#t-filtered').textContent = s.filtered; $('#t-esc').textContent = s.escalated;
-  $('#t-noise').textContent = s.total ? Math.round(100 * (s.auto + s.filtered) / s.total) + '%' : '0%';
-  const open = d.requests.filter(r => r.team && ['escalated','awaiting_team','human_takeover'].includes(r.status));
-  $('#board').innerHTML = Object.entries(d.team).map(([k, m]) => {
-    const items = open.filter(r => r.team === k);
-    return `<div class="lane"><h3>${esc(m.role)} <small>${esc(m.name)} · ${items.length}</small></h3>` +
-      (items.map(r => `<div class="card ${r.severity}"><b>${r.id}</b> ${esc(r.summary)}
-        <div class="meta">${r.severity} · ${LABEL[r.status]}</div>
-        ${r.status === 'awaiting_team' ? `<button onclick="decide('${r.id}','approve')">Approve</button><button class="ghost" onclick="decide('${r.id}','decline')">Decline</button>` : ''}
-      </div>`).join('') || '<div class="empty">Nothing needs you.</div>') + '</div>';
-  }).join('');
-  $('#feed').innerHTML = d.requests.slice(0, 40).map(r => `<div class="row"><span class="id">${r.id}</span>
-      <span class="txt">${esc(r.summary)}</span><span class="pill ${r.status}">${LABEL[r.status] || r.status}</span></div>`).join('')
-      || '<div class="row empty">Waiting for the first customer…</div>';
-  $('#outbox').innerHTML = d.alerts.slice(0, 25).map(a => `<div class="row"><span class="ch">${a.channel === 'whatsapp' ? 'WhatsApp' : 'Email'}</span>
-      <span class="txt"><b>${esc(a.to)}</b><br>${esc(a.subject)}</span></div>`).join('')
-      || '<div class="row empty">No escalations yet. That\'s the point.</div>';
+  try { data = await (await fetch('/ops/api/feed')).json(); } catch (e) { return; }
+  const s = data.stats, R = data.requests;
+  const pct = n => s.total ? Math.round(100 * n / s.total) + '%' : '0%';
+  $('#k-total').textContent = s.total; $('#k-auto').textContent = s.auto; $('#k-autop').textContent = pct(s.auto) + ' of requests';
+  $('#k-fil').textContent = s.filtered; $('#k-esc').textContent = s.escalated; $('#k-escp').textContent = pct(s.escalated) + ' of requests';
+  const pend = R.filter(r => r.status === 'awaiting_team');
+  $('#k-appr').textContent = pend.length; $('#n-appr').textContent = pend.length;
+  $('#k-saved').textContent = ((s.auto + s.filtered) * 6 / 60).toFixed(1) + 'h';
+  const open = R.filter(r => ['escalated','awaiting_team','human_takeover'].includes(r.status));
+  $('#n-open').textContent = open.length; $('#n-alerts').textContent = data.alerts.length;
+  // categories
+  const max = Math.max(1, ...Object.values(data.categories).map(c => c.total));
+  $('#cats').innerHTML = Object.entries(data.categories).map(([n, c]) => `<div class="cat"><span>${esc(n)}</span>
+    <div class="bar" style="width:${Math.max(4, 100 * c.total / max)}%">${c.total ? `<span class="b-auto" style="flex:${c.auto}"></span><span class="b-fil" style="flex:${c.filtered}"></span><span class="b-esc" style="flex:${c.escalated}"></span>` : ''}</div>
+    <b style="text-align:right">${c.total}</b></div>`).join('') +
+    '<div class="legend"><span><i style="background:var(--ok)"></i>Resolved by AI</span><span><i style="background:#94a3b8"></i>Filtered by policy</span><span><i style="background:var(--esc)"></i>Escalated</span></div>';
+  // routing
+  const ccCount = t => R.filter(r => (r.cc || []).includes(t) && ['escalated','awaiting_team','human_takeover'].includes(r.status)).length;
+  $('#route').innerHTML = ROUTE_ORDER.map(t => { const m = data.team[t]; const n = open.filter(r => r.team === t).length; const cc = ccCount(t);
+    return `<div class="dest ${n ? 'hot' : ''}"><span class="n">${n}</span><b>${esc(m.role)}</b><small>${esc(m.name)} · ${esc(m.email)}</small>
+      ${ROUTE_TAG[t] ? `<span class="tagx">${ROUTE_TAG[t]}</span>` : ''}${cc ? `<small style="margin-top:4px">+${cc} copied for awareness</small>` : ''}</div>`; }).join('');
+  // chips + table
+  const cats = ['All', 'Escalated only', ...Object.keys(data.categories)];
+  $('#chips').innerHTML = cats.map(c => `<button class="chip ${c === filter ? 'on' : ''}" onclick="setF('${c.replace(/'/g,"\\'")}')">${esc(c)}</button>`).join('');
+  const rows = R.filter(r => filter === 'All' || (filter === 'Escalated only' ? open.includes(r) : r.category === filter));
+  $('#tcount').textContent = rows.length + ' shown';
+  $('#rows').innerHTML = rows.map(r => { const m = r.team ? data.team[r.team] : null;
+    return `<tr><td class="id">${r.id}</td><td>${esc(r.category || 'General')}</td><td>${esc(r.summary)}</td>
+      <td><span class="pill ${r.status}">${LABEL[r.status] || r.status}</span></td><td><span class="sev ${r.severity}">${r.severity}</span></td>
+      <td class="to">${m ? `${esc(m.role)}<small>${esc(m.name)}${(r.cc||[]).length ? ' · cc ' + r.cc.map(c => data.team[c].role).join(', ') : ''}</small>` : '<small>Handled by Mira</small>'}</td></tr>`; }).join('')
+    || '<tr><td colspan="6" class="empty">No requests yet. Chat with Mira on the store, or click "Load sample day".</td></tr>';
+  // approvals
+  $('#appr').innerHTML = pend.map(r => `<div class="appr"><b>${r.id}</b> ${esc(r.summary)}
+      <div><button onclick="act('/ops/api/decide/${r.id}/approve')">Approve</button><button class="g" onclick="act('/ops/api/decide/${r.id}/decline')">Decline</button></div></div>`).join('')
+    || '<div class="empty">Nothing waiting. Deals within limits close automatically.</div>';
+  // alerts
+  $('#alerts').innerHTML = data.alerts.slice(0, 40).map(a => `<div class="alert"><span class="ch ${a.channel}">${a.channel === 'whatsapp' ? 'WhatsApp' : 'Email'}</span>
+      <div><b>${esc(a.to)}</b><small>${esc(a.subject)}</small></div></div>`).join('') || '<div class="empty">No escalations yet. That is the point.</div>';
 }
-async function decide(id, d) { await fetch(`/ops/api/decide/${id}/${d}`, { method:'POST' }); load(); }
-async function importStore() {
-  const url = $('#storeUrl').value.trim();
-  $('#importOut').textContent = 'Reading the store…';
-  try { const r = await (await fetch('/v1/import?url=' + encodeURIComponent(url))).json();
-        $('#importOut').innerHTML = esc(r.message) + (r.collections && r.collections.length ? '<br>Collections: ' + esc(r.collections.join(', ')) : '')
-          + (r.policies && r.policies.length ? '<br>Policies: ' + esc(r.policies.join(', ')) : '');
-  } catch (e) { $('#importOut').textContent = 'Import failed. Check the address.'; }
+function setF(c) { filter = c; load(); }
+async function act(u) { await fetch(u, { method:'POST' }); load(); }
+async function imp() {
+  $('#impOut').textContent = 'Reading the store…';
+  try { const r = await (await fetch('/v1/import?url=' + encodeURIComponent($('#url').value.trim()))).json();
+    $('#impOut').innerHTML = esc(r.message) + (r.collections && r.collections.length ? '<br>Collections: ' + esc(r.collections.join(', ')) : '') + (r.policies && r.policies.length ? '<br>Policies: ' + esc(r.policies.join(', ')) : '');
+  } catch (e) { $('#impOut').textContent = 'Import failed. Check the address.'; }
 }
 load(); setInterval(load, 3000);
 </script>
