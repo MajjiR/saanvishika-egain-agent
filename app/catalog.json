@@ -1,16 +1,29 @@
 [
  {
-  "id": "grand-floral-ad-stone-jhumka-earrings",
-  "title": "Grand Floral AD Stone Jhumka Earrings",
-  "price": 1499.0,
-  "compare_at": 2599.0,
+  "id": "bridal-triple-gemstone-cz-diamond-necklace-set-victorian-violet",
+  "title": "Bridal Triple Gemstone CZ Diamond Necklace Set Victorian (Violet)",
+  "price": 4999.0,
+  "compare_at": 6999.0,
   "available": true,
   "tags": [
-   "Jhumkas"
+   "blackvictorian",
+   "bridal",
+   "heavy"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/ad-floral-dome-jhumka-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#grand-floral-ad-stone-jhumka-earrings",
-  "description": "Long statement jhumkas in a rich gold finish. A floral vine top and a round flower cluster lead down to an open-work filigree dome, all set with sparkling white American Diamond (CZ) stones and finished with a row of pear-cut crystal drops. Grand enough for weddings and festive wear, light enough to"
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/victorian-triple-gemstone-set-violet-1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#bridal-triple-gemstone-cz-diamond-necklace-set-victorian-violet",
+  "description": "A grand bridal necklace set in an antique Victorian (black) polish, with cascading leaf-and-vine strands set in sparkling white American Diamond (CZ) stones and three violet gemstones (oval, emerald-cut and pear) down the centre. Comes with matching drop earrings with screw-back closure. A striking "
+ },
+ {
+  "id": "diamond-look-cz-cluster-choker-necklace-with-studs",
+  "title": "Diamond Look CZ Cluster Choker Necklace with Studs",
+  "price": 1499.0,
+  "compare_at": 2199.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsApp_Image_2026-11-12_at_12.40.26_1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#diamond-look-cz-cluster-choker-necklace-with-studs",
+  "description": "A sparkling choker-style necklace in a gold-tone finish, set with a mix of emerald-cut, pear and oval white American Diamond (CZ) stones in an open lattice pattern, with a statement oval-stone cluster at the centre. Comes with matching cluster studs. Elegant enough for weddings and receptions, easy "
  },
  {
   "id": "black-victorian-peacock-lakshmi-kasu-necklace-with-earrings",
@@ -19,37 +32,22 @@
   "compare_at": 3999.0,
   "available": true,
   "tags": [
-   "Necklaces"
+   "blackvictorian"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/bv-kasu-1.jpg?width=600",
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/bv-kasu-1.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#black-victorian-peacock-lakshmi-kasu-necklace-with-earrings",
   "description": "Victorian finish CZ necklace with a row of gold Lakshmi kasu coins, a twin-peacock centre and a large detachable-style pendant set with polki-look stones and an emerald-green centre stone. Comes with matching peacock chandbali earrings."
  },
  {
-  "id": "green-gemstone-panchloha-necklace",
-  "title": "Green Gemstone Panchloha Necklace",
-  "price": 1699.0,
-  "compare_at": 3599.0,
-  "available": false,
-  "tags": [
-   "Necklaces"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/green-kundan-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#green-gemstone-panchloha-necklace",
-  "description": "Antique gold-finish panchloha necklace set with round emerald-green gemstones and a pendant centred on a large white CZ stone. Comes with matching green gemstone jhumka earrings."
- },
- {
-  "id": "diamond-look-cz-cluster-choker-necklace-with-studs",
-  "title": "Diamond Look CZ Cluster Choker Necklace with Studs",
-  "price": 1499.0,
-  "compare_at": 2199.0,
+  "id": "designer-floral-ear-danglers",
+  "title": "Detachable Designer Floral Ear Danglers",
+  "price": 999.0,
+  "compare_at": 2599.0,
   "available": true,
-  "tags": [
-   "Chokers"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsApp_Image_2026-11-12_at_12.40.26_1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#diamond-look-cz-cluster-choker-necklace-with-studs",
-  "description": "A sparkling choker-style necklace in a gold-tone finish, set with a mix of emerald-cut, pear and oval white American Diamond (CZ) stones in an open lattice pattern, with a statement oval-stone cluster at the centre. Comes with matching cluster studs. Elegant enough for weddings and receptions, easy "
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-10at22.31.23.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#designer-floral-ear-danglers",
+  "description": ""
  },
  {
   "id": "designer-peacock-leaf-ad-stone-earcuffs",
@@ -57,51 +55,25 @@
   "price": 1599.0,
   "compare_at": 2299.0,
   "available": true,
-  "tags": [
-   "Ear Cuffs"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/peacock-leaf-earcuffs-1.jpg?width=600",
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/peacock-leaf-earcuffs-1.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#designer-peacock-leaf-ad-stone-earcuffs",
   "description": "Statement earcuffs in a two-tone gold finish, shaped as an open-work peacock whose fanned leaf-shaped tail follows the curve of the ear. Each leaf is outlined in sparkling white American Diamond (CZ) stones, the peacock body is pavé-set with a ruby-pink eye, and a tiny drop hangs at the top. The hoo"
  },
  {
-  "id": "solitaire-drop-stud-earrings-yellow",
-  "title": "Solitaire Drop Stud Earrings (Yellow)",
-  "price": 659.0,
-  "compare_at": 949.0,
-  "available": false,
-  "tags": [
-   "Earrings"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/solitaire-drop-studs-yellow-ai.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#solitaire-drop-stud-earrings-yellow",
-  "description": "Daily wear Minimal solitaire drop studs with a round-cut stone on top and a pear-cut drop below, in a gold-tone prong setting. Screw-back closure for a secure fit. Light enough for everyday wear, sparkly enough for parties and office looks. Finish: Gold-tone Stones: Yellow Closure: Screw back Sold a"
- },
- {
-  "id": "bridal-triple-gemstone-cz-diamond-necklace-set-victorian-violet",
-  "title": "Bridal Triple Gemstone CZ Diamond Necklace Set Victorian (Violet)",
+  "id": "bridal-triple-gemstone-cz-diamond-necklace-set-victorian-sea-green",
+  "title": "Bridal Triple Gemstone CZ Diamond Necklace Set Victorian (Sea Green)",
   "price": 4999.0,
   "compare_at": 6999.0,
   "available": true,
   "tags": [
-   "Bridal"
+   "blackvictorian",
+   "bridal",
+   "heavy"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/victorian-triple-gemstone-set-violet-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#bridal-triple-gemstone-cz-diamond-necklace-set-victorian-violet",
-  "description": "A grand bridal necklace set in an antique Victorian (black) polish, with cascading leaf-and-vine strands set in sparkling white American Diamond (CZ) stones and three violet gemstones (oval, emerald-cut and pear) down the centre. Comes with matching drop earrings with screw-back closure. A striking "
- },
- {
-  "id": "antique-lakshmi-kasu-coin-necklace-with-kundan-studs",
-  "title": "Antique Lakshmi Kasu Double Layer Coin Necklace with Kundan Studs",
-  "price": 1499.0,
-  "compare_at": 2199.0,
-  "available": true,
-  "tags": [
-   "Necklaces"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/lakshmi-kasu-coin-necklace-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#antique-lakshmi-kasu-coin-necklace-with-kundan-studs",
-  "description": "A traditional South Indian double layer kasu mala-style necklace in a rich antique gold finish, with two rows of engraved Lakshmi coins and a gold bead border. Three paisley (mango) motifs set with ruby-red, white and emerald-green kundan stones sit across the front. Comes with matching paisley kund"
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/victorian-triple-gemstone-set-seagreen-1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#bridal-triple-gemstone-cz-diamond-necklace-set-victorian-sea-green",
+  "description": "A grand bridal necklace set in an antique Victorian (black) polish, with cascading leaf-and-vine strands set in sparkling white American Diamond (CZ) stones and three sea green gemstones (oval, emerald-cut and pear) down the centre. Comes with matching drop earrings with screw-back closure. A striki"
  },
  {
   "id": "grand-russian-green-peacock-pendant-victorian",
@@ -109,25 +81,10 @@
   "price": 1999.0,
   "compare_at": 2899.0,
   "available": true,
-  "tags": [
-   "Pendants"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/peacock-pendant-victorian-a.jpg?width=600",
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/peacock-pendant-victorian-a.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#grand-russian-green-peacock-pendant-victorian",
   "description": "A grand peacock pendant in a rich Victorian (antique rose-gold) finish, with a fanned tail of sapphire-blue pear stones, ruby and emerald accents and a pavé-set body in sparkling white American Diamond (CZ) stones. Three large Russian-green pear-cut drops hang below for a dramatic statement piece at"
- },
- {
-  "id": "diamond-look-cz-clip-on-nose-ring",
-  "title": "Diamond Look CZ Clip-On Nose Ring",
-  "price": 899.0,
-  "compare_at": 1999.0,
-  "available": true,
-  "tags": [
-   "Nose Pins"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/cz-clip-on-nose-ring-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#diamond-look-cz-clip-on-nose-ring",
-  "description": "A sparkling clip-on nose ring lined with a full row of round white American Diamond (CZ) stones in a silver-tone setting with gold-tone tips. No piercing needed: simply press it gently onto the nose. Perfect for festive looks, weddings or everyday glam. Finish: Silver-tone with gold-tone tips Stones"
  },
  {
   "id": "two-tone-floral-drop-ad-stone-earcuffs-russian-green",
@@ -135,25 +92,142 @@
   "price": 1299.0,
   "compare_at": 1899.0,
   "available": true,
-  "tags": [
-   "Ear Cuffs"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/twotone-drop-earcuffs-green-worn-1.jpg?width=600",
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/twotone-drop-earcuffs-green-worn-1.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#two-tone-floral-drop-ad-stone-earcuffs-russian-green",
   "description": "Statement two-tone earcuffs with swirling open-work set in sparkling white American Diamond (CZ) stones, Russian-green pear-cut clusters and a Russian-green drop framed by a halo of white stones. The soft blue-green Russian stone gives a fresh, modern take on the classic look. The gold-tone hook res"
  },
  {
-  "id": "butterfly-floral-ad-stone-earcuffs-green",
-  "title": "Butterfly Floral AD Stone Earcuffs - Green",
-  "price": 1299.0,
-  "compare_at": 1899.0,
+  "id": "green-gemstone-panchloha-necklace",
+  "title": "Green Gemstone Panchloha Necklace",
+  "price": 1699.0,
+  "compare_at": 3599.0,
+  "available": false,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/green-kundan-1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#green-gemstone-panchloha-necklace",
+  "description": "Antique gold-finish panchloha necklace set with round emerald-green gemstones and a pendant centred on a large white CZ stone. Comes with matching green gemstone jhumka earrings."
+ },
+ {
+  "id": "solitaire-drop-stud-earrings-yellow",
+  "title": "Solitaire Drop Stud Earrings (Yellow)",
+  "price": 659.0,
+  "compare_at": 949.0,
+  "available": false,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/solitaire-drop-studs-yellow-ai.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#solitaire-drop-stud-earrings-yellow",
+  "description": "Daily wear Minimal solitaire drop studs with a round-cut stone on top and a pear-cut drop below, in a gold-tone prong setting. Screw-back closure for a secure fit. Light enough for everyday wear, sparkly enough for parties and office looks. Finish: Gold-tone Stones: Yellow Closure: Screw back Sold a"
+ },
+ {
+  "id": "solitaire-drop-stud-earrings-green",
+  "title": "Solitaire Drop Stud Earrings (Green)",
+  "price": 659.0,
+  "compare_at": 949.0,
   "available": true,
-  "tags": [
-   "Ear Cuffs"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/butterfly-earcuffs-green-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#butterfly-floral-ad-stone-earcuffs-green",
-  "description": "Delicate silver-tone earcuffs that trace the curve of the ear, set with sparkling white American Diamond (CZ) stones in a butterfly-and-flower vine design, finished with emerald-green pear-cut stones at the lobe. No extra piercing needed: the hook rests over the ear while the stud sits in your regul"
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/solitaire-drop-studs-green-ai.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#solitaire-drop-stud-earrings-green",
+  "description": "Daily wear Minimal solitaire drop studs with a round-cut stone on top and a pear-cut drop below, in a gold-tone prong setting. Screw-back closure for a secure fit. Light enough for everyday wear, sparkly enough for parties and office looks. Finish: Gold-tone Stones: Green Closure: Screw back Sold as"
+ },
+ {
+  "id": "solitaire-drop-stud-earrings-white",
+  "title": "Solitaire Drop Stud Earrings (White)",
+  "price": 659.0,
+  "compare_at": 949.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/solitaire-drop-studs-white-ai.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#solitaire-drop-stud-earrings-white",
+  "description": "Daily wear Minimal solitaire drop studs with a round-cut stone on top and a pear-cut drop below, in a gold-tone prong setting. Screw-back closure for a secure fit. Light enough for everyday wear, sparkly enough for parties and office looks. Finish: Gold-tone Stones: Green Closure: Screw back Sold as"
+ },
+ {
+  "id": "antique-lakshmi-kasu-coin-necklace-with-kundan-studs",
+  "title": "Antique Lakshmi Kasu Double Layer Coin Necklace with Kundan Studs",
+  "price": 1499.0,
+  "compare_at": 2199.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/lakshmi-kasu-coin-necklace-1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#antique-lakshmi-kasu-coin-necklace-with-kundan-studs",
+  "description": "A traditional South Indian double layer kasu mala-style necklace in a rich antique gold finish, with two rows of engraved Lakshmi coins and a gold bead border. Three paisley (mango) motifs set with ruby-red, white and emerald-green kundan stones sit across the front. Comes with matching paisley kund"
+ },
+ {
+  "id": "grand-floral-ad-stone-jhumka-earrings",
+  "title": "Grand Floral AD Stone Jhumka Earrings",
+  "price": 1499.0,
+  "compare_at": 2599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/ad-floral-dome-jhumka-1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#grand-floral-ad-stone-jhumka-earrings",
+  "description": "Long statement jhumkas in a rich gold finish. A floral vine top and a round flower cluster lead down to an open-work filigree dome, all set with sparkling white American Diamond (CZ) stones and finished with a row of pear-cut crystal drops. Grand enough for weddings and festive wear, light enough to"
+ },
+ {
+  "id": "grand-russian-green-peacock-pendant-platinum",
+  "title": "Grand Russian Green Peacock Pendant (Platinum)",
+  "price": 1999.0,
+  "compare_at": 2899.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/peacock-pendant-platinum-a.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#grand-russian-green-peacock-pendant-platinum",
+  "description": "A grand peacock pendant in a bright platinum (silver-tone) finish, with a fanned tail of sapphire-blue pear stones, ruby and emerald accents and a pavé-set body in sparkling white American Diamond (CZ) stones. Three large Russian-green pear-cut drops hang below for a dramatic statement piece at wedd"
+ },
+ {
+  "id": "diamond-look-cz-clip-on-nose-ring",
+  "title": "Diamond Look CZ Clip-On Nose Ring",
+  "price": 899.0,
+  "compare_at": 1999.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/cz-clip-on-nose-ring-1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#diamond-look-cz-clip-on-nose-ring",
+  "description": "A sparkling clip-on nose ring lined with a full row of round white American Diamond (CZ) stones in a silver-tone setting with gold-tone tips. No piercing needed: simply press it gently onto the nose. Perfect for festive looks, weddings or everyday glam. Finish: Silver-tone with gold-tone tips Stones"
+ },
+ {
+  "id": "neck-chain-with-detachable-pendant",
+  "title": "Necklace with Detachable Pendant",
+  "price": 1899.0,
+  "compare_at": 3499.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-04-10at21.47.09_1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#neck-chain-with-detachable-pendant",
+  "description": ""
+ },
+ {
+  "id": "detachable-jhumki-multi-floral-diamond-ear-cuffs",
+  "title": "Detachable Jhumki Multi Floral  Diamond Ear cuffs",
+  "price": 2799.0,
+  "compare_at": 3599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-02-27at21.14.42_1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#detachable-jhumki-multi-floral-diamond-ear-cuffs",
+  "description": ""
+ },
+ {
+  "id": "detachable-jhumki-single-floral-diamond-ear-cuffs",
+  "title": "Detachable Jhumki Single Floral  Diamond Ear cuffs",
+  "price": 2999.0,
+  "compare_at": 3599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-02-27at21.14.37.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#detachable-jhumki-single-floral-diamond-ear-cuffs",
+  "description": ""
+ },
+ {
+  "id": "detachable-jhumki-floral-american-diamond-earcuffs",
+  "title": "Detachable Jhumki Floral American Diamond Earcuffs",
+  "price": 2999.0,
+  "compare_at": 3599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-02-27at21.14.33_1.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#detachable-jhumki-floral-american-diamond-earcuffs",
+  "description": ""
  },
  {
   "id": "jadau-look-antique-kasulu-mala",
@@ -162,115 +236,11 @@
   "compare_at": 3599.0,
   "available": true,
   "tags": [
-   "Necklaces"
+   "haram"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/jadau-kasulu-mala-1.jpg?width=600",
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/jadau-kasulu-mala-1.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#jadau-look-antique-kasulu-mala",
   "description": "A long traditional kasulu mala in a rich antique gold finish, made of overlapping engraved paisley (mango) coins with a fine row of ruby-red jadau-look stones running along the inner edge. A statement temple-style haram for weddings, festivals and silk sarees. Finish: Antique gold Stones: Ruby-red j"
- },
- {
-  "id": "kundan-antique-guttapusalu-necklace-with-push-back-studs",
-  "title": "Kundan Antique Guttapusalu Necklace with Push Back Studs",
-  "price": 2499.0,
-  "compare_at": 3599.0,
-  "available": true,
-  "tags": [
-   "Necklaces"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/kundan-guttapusalu-necklace-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#kundan-antique-guttapusalu-necklace-with-push-back-studs",
-  "description": "A traditional South Indian guttapusalu necklace in an antique gold finish, with paisley (mango) motifs set in ruby-red and emerald-green kundan stones and clusters of seed-pearl drops along the edge. Comes with matching round peacock-motif kundan studs with push-back closure. A classic pick for wedd"
- },
- {
-  "id": "antique-studs-screw-back-ruby",
-  "title": "Antique Studs (Screw Back) - Ruby",
-  "price": 1199.0,
-  "compare_at": 3900.0,
-  "available": true,
-  "tags": [
-   "Earrings"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/antique-studs-ruby-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#antique-studs-screw-back-ruby",
-  "description": "Antique gold-finish floral studs set with sparkling white American Diamond (CZ) stones around a ruby-red centre stone, in a layered, mandala-style pattern. Screw-back closure with an ear-support loop that holds the stud flat and secure, even through long functions. A classic pick for weddings, pujas"
- },
- {
-  "id": "white-cz-leaf-drop-ear-chain",
-  "title": "White CZ Leaf Drop Ear Chain",
-  "price": 999.0,
-  "compare_at": 1449.0,
-  "available": true,
-  "tags": [
-   "Ear Chains"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/cz-leaf-ear-chain-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#white-cz-leaf-drop-ear-chain",
-  "description": "Elegant ear chains with a row of white CZ leaf drops in a gold-tone finish. Hooks into your hair and links to your earrings. A lightweight, sparkling finish for sarees, lehengas and reception looks. Finish: Gold-tone Stones: White AD/CZ Sold as: Pair"
- },
- {
-  "id": "multicolour-floral-ad-stone-ear-chain",
-  "title": "Multicolour Floral AD Stone Ear Chain",
-  "price": 890.0,
-  "compare_at": 1299.0,
-  "available": true,
-  "tags": [
-   "Ear Chains"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/multicolour-ear-chain-1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#multicolour-floral-ad-stone-ear-chain",
-  "description": "Traditional floral ear chains (mattal) in a gold-tone finish, set with white American Diamond (CZ) stones and ruby and emerald accents. Hooks into your hair and links to your earrings for a classic bridal and festive look. Finish: Gold-tone Stones: White AD/CZ with ruby and emerald accents Sold as: "
- },
- {
-  "id": "emerald-floral-ad-stone-choker-with-studs",
-  "title": "Emerald Floral AD Stone Choker with Studs",
-  "price": 2499.0,
-  "compare_at": 3599.0,
-  "available": true,
-  "tags": [
-   "Chokers"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/emerald-floral-choker-2.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#emerald-floral-ad-stone-choker-with-studs",
-  "description": "A statement floral choker set with sparkling white American Diamond (CZ) stones and vivid emerald-green accents in a gold-tone finish. Comes with matching flower studs. Adjustable chain closure for a comfortable fit — perfect for weddings, festive occasions and sarees. Finish: Gold-tone Stones: Whit"
- },
- {
-  "id": "designer-gemstone-neck-patti-multi-color",
-  "title": "Designer Gemstone Neck Patti Multi color",
-  "price": 1099.0,
-  "compare_at": 1650.0,
-  "available": true,
-  "tags": [
-   "Necklaces"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-10-02at08.05.41_1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#designer-gemstone-neck-patti-multi-color",
-  "description": ""
- },
- {
-  "id": "designer-gemstone-neck-patti-ruby",
-  "title": "Designer Gemstone Neck Patti Ruby",
-  "price": 1099.0,
-  "compare_at": 1650.0,
-  "available": true,
-  "tags": [
-   "Necklaces"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-10-02at08.05.43.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#designer-gemstone-neck-patti-ruby",
-  "description": ""
- },
- {
-  "id": "designer-gemstone-neck-patti-emerald",
-  "title": "Designer Gemstone Neck Patti emerald",
-  "price": 1099.0,
-  "compare_at": 1650.0,
-  "available": true,
-  "tags": [
-   "Necklaces"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-10-02at08.05.40_1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#designer-gemstone-neck-patti-emerald",
-  "description": ""
  },
  {
   "id": "triple-gemstone-green-beads-diamond-necklace-green-2",
@@ -279,36 +249,82 @@
   "compare_at": 9999.0,
   "available": true,
   "tags": [
-   "Necklaces"
+   "batch2",
+   "beads",
+   "blackvictorian"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-26at14.56.20_1.jpg?width=600",
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-26at14.56.20_1.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#triple-gemstone-green-beads-diamond-necklace-green-2",
   "description": ""
  },
  {
-  "id": "emerald-screwback-jhumka",
-  "title": "Emerald Screwback Jhumka",
-  "price": 1299.0,
-  "compare_at": 2599.0,
+  "id": "grand-bridal-beads-tikka",
+  "title": "Grand Bridal Beads tikka",
+  "price": 1099.0,
+  "compare_at": 3999.0,
   "available": true,
-  "tags": [
-   "Jhumkas"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-05at21.10.11_2.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#emerald-screwback-jhumka",
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-08-31at16.19.35.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#grand-bridal-beads-tikka",
   "description": ""
  },
  {
-  "id": "designer-diamond-look-ear-chain-combo",
-  "title": "Designer Diamond Look Ear chain (COMBO)",
-  "price": 3999.0,
-  "compare_at": 5599.0,
+  "id": "triple-gemstone-green-beads-diamond-pink-beads",
+  "title": "Triple Gemstone Diamond Necklace Pink Beads",
+  "price": 5999.0,
+  "compare_at": 9999.0,
   "available": true,
   "tags": [
-   "Ear Chains"
+   "batch2",
+   "beads",
+   "bridal"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-05at21.14.43_1.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#designer-diamond-look-ear-chain-combo",
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-07-09at15.42.12.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#triple-gemstone-green-beads-diamond-pink-beads",
+  "description": ""
+ },
+ {
+  "id": "full-ear-peacock-jhumka-earrings",
+  "title": "Full Ear Peacock Jhumka Earrings",
+  "price": 1099.0,
+  "compare_at": 2599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-08-31at16.27.30.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#full-ear-peacock-jhumka-earrings",
+  "description": ""
+ },
+ {
+  "id": "peacock-designer-necklace-green",
+  "title": "Peacock Designer Necklace Green",
+  "price": 1299.0,
+  "compare_at": 2599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-07-14at14.34.11_1_b093bc12-2a4d-4b24-8bad-34bbbd3b8a5b.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#peacock-designer-necklace-green",
+  "description": ""
+ },
+ {
+  "id": "peacock-designer-necklace-ruby",
+  "title": "Peacock Designer Necklace Ruby",
+  "price": 1299.0,
+  "compare_at": 2599.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-07-14at14.34.10.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#peacock-designer-necklace-ruby",
+  "description": ""
+ },
+ {
+  "id": "peacock-toe-rings",
+  "title": "Peacock Toe rings",
+  "price": 1190.0,
+  "compare_at": 2499.0,
+  "available": true,
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-07-14at14.35.16.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#peacock-toe-rings",
   "description": ""
  },
  {
@@ -318,36 +334,52 @@
   "compare_at": 7999.0,
   "available": true,
   "tags": [
-   "Bridal"
+   "heavy",
+   "new"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsApp_Image_2026-09-26_at_09.26.44_1.jpg?width=600",
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsApp_Image_2026-09-26_at_09.26.44_1.jpg",
   "url": "https://mayura-boutique-demo.vercel.app/#designer-bridal-choti-gold-color",
   "description": ""
  },
  {
-  "id": "diamond-look-stud-screwback-with-bugadi-red",
-  "title": "Diamond Look Stud Screwback with bugadi (ruby)",
-  "price": 1199.0,
-  "compare_at": 1800.0,
+  "id": "super-grand-bridal-diamond-long-earchain-with-screwback",
+  "title": "Super Grand Bridal Diamond Long Earchain with Screwback",
+  "price": 2999.0,
+  "compare_at": 4399.0,
   "available": true,
-  "tags": [
-   "Earrings"
-  ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-10at16.18.25_31111fec-4dec-4425-8907-8828c296d76b.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#diamond-look-stud-screwback-with-bugadi-red",
+  "tags": [],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-08-31at16.29.09.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#super-grand-bridal-diamond-long-earchain-with-screwback",
   "description": ""
  },
  {
-  "id": "designer-ear-piece-set",
-  "title": "Designer Ear Piece Set",
-  "price": 1299.0,
-  "compare_at": 2999.0,
+  "id": "triple-gemstone-green-beads-diamond-necklace-green-copy",
+  "title": "Triple Gemstone  Diamond Necklace Purple Beads",
+  "price": 5999.0,
+  "compare_at": 9999.0,
   "available": true,
   "tags": [
-   "Earrings"
+   "batch2",
+   "beads",
+   "bridal"
   ],
-  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-09-10at11.50.06.jpg?width=600",
-  "url": "https://mayura-boutique-demo.vercel.app/#designer-ear-piece-set",
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/WhatsAppImage2026-07-09at15.41.56.jpg",
+  "url": "https://mayura-boutique-demo.vercel.app/#triple-gemstone-green-beads-diamond-necklace-green-copy",
+  "description": ""
+ },
+ {
+  "id": "grand-pendant-pearl-diamond-necklace-green-1",
+  "title": "Grand Pendant Pearl Diamond Necklace Green",
+  "price": 5999.0,
+  "compare_at": 8999.0,
+  "available": true,
+  "tags": [
+   "batch2",
+   "gj",
+   "haram"
+  ],
+  "image": "https://cdn.shopify.com/s/files/1/0670/2750/1244/files/51_f80f9afa-dc34-48ee-9a29-13f7a31635af.png",
+  "url": "https://mayura-boutique-demo.vercel.app/#grand-pendant-pearl-diamond-necklace-green-1",
   "description": ""
  }
 ]
