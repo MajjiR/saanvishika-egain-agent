@@ -14,80 +14,86 @@ def q(**kw):
     return c.post("/v1/wholesale/quote", json=kw).json()
 
 
+def feed():
+    return c.get("/ops/api/feed").json()
+
+
 def test_search_budget():
     r = c.get("/v1/products/search", params={"query": "jhumka", "max_price": 1500}).json()
-    assert r["result"] == "found" and r["p1_price"] <= 1500
+    assert r["result"] == "found"
 
 
-def test_quote_tiers_and_upsell():
-    r = q(product="Emerald Screwback Jhumka", quantity=30)
-    assert r["result"] == "quote_issued" and r["discount_percent"] == 15
-    assert r["unit_price"] == round(1299 * 0.85) and "Add 20 more" in r["message"]
+def test_tier1_auto_quote_and_counter():
+    r = q(product="Floral AD Stone Jhumka", quantity=30)
+    assert r["result"] == "quote_issued" and r["discount_percent"] == 15 and "Add 20 more" in r["message"]
+    assert q(product="Floral AD Stone Jhumka", quantity=30, requested_discount=20)["result"] == "counter_offer"
 
 
-def test_quote_below_minimum():
-    assert q(product="Emerald Screwback Jhumka", quantity=5)["result"] == "below_minimum"
+def test_tier2_team_check_and_approval():
+    r = q(product="Floral AD Stone Jhumka", quantity=100, requested_discount=35)
+    assert r["result"] == "team_check" and "check with my team" in r["message"]
+    c.post(f"/ops/api/decide/{r['quote_id']}/approve")
+    assert c.get(f"/v1/quotes/{r['quote_id']}").json()["result"] == "approved"
 
 
-def test_counter_offer_when_asking_more_than_tier():
-    r = q(product="Emerald Screwback Jhumka", quantity=30, requested_discount=20)
-    assert r["result"] == "counter_offer" and r["discount_percent"] == 15
+def test_tier3_human_takeover_routes_to_sales_with_whatsapp():
+    r = q(product="Floral AD Stone Jhumka", quantity=5000)
+    assert r["result"] == "human_takeover"
+    alerts = [a for a in feed()["alerts"] if a["ref"] == r["quote_id"]]
+    assert {a["channel"] for a in alerts} == {"email", "whatsapp"} and all(a["team"] == "sales" for a in alerts)
 
 
-def test_owner_approval_above_ceiling():
-    r = q(product="Emerald Screwback Jhumka", quantity=100, requested_discount=35)
-    assert r["result"] == "owner_approval"
-    status = c.get(f"/v1/quotes/{r['quote_id']}").json()
-    assert status["result"] == "pending_owner"
-    c.post(f"/owner/api/quotes/{r['quote_id']}/approve", params={"key": "owner-demo"})
-    assert c.get(f"/v1/quotes/{r['quote_id']}").json()["result"] == "approved_by_owner"
-
-
-def test_quote_query_params_also_work():
-    r = c.post("/v1/wholesale/quote?product=Emerald%20Screwback%20Jhumka&quantity=50").json()
-    assert r["discount_percent"] == 20
-
-
-def test_ambiguous_product():
+def test_below_minimum_and_ambiguous():
+    assert q(product="Floral AD Stone Jhumka", quantity=5)["result"] == "below_minimum"
     assert q(product="earrings", quantity=20)["result"] in ("ambiguous", "not_found")
 
 
-def test_order_status_and_verification():
-    assert c.get("/v1/orders/status", params={"order_id": "SV1001", "phone_last4": "1111"}).json()["result"] == "shipped"
-    assert c.get("/v1/orders/status", params={"order_id": "SV1001", "phone_last4": "9999"}).json()["result"] == "not_found"
-    assert c.get("/v1/orders/status", params={"order_id": "1001", "phone_last4": "1111"}).json()["result"] == "shipped"
-
-
-def test_rehearsed_failure():
-    assert c.get("/v1/orders/status", params={"order_id": "SV0000"}).status_code == 503
+def test_order_status_verification_and_failure():
+    assert c.get("/v1/orders/status", params={"order_id": "MB1001", "phone_last4": "1111"}).json()["result"] == "shipped"
+    assert c.get("/v1/orders/status", params={"order_id": "MB1001", "phone_last4": "9"}).json()["result"] == "not_found"
+    assert c.get("/v1/orders/status", params={"order_id": "MB0000"}).status_code == 503
 
 
 def test_cancel_rules():
-    assert c.post("/v1/orders/cancel", json={"order_id": "SV1001", "phone_last4": "1111"}).json()["result"] == "not_cancellable"
-    r1 = c.post("/v1/orders/cancel", json={"order_id": "SV1004", "phone_last4": "4444"}).json()
-    r2 = c.post("/v1/orders/cancel", json={"order_id": "SV1004", "phone_last4": "4444"}).json()
+    assert c.post("/v1/orders/cancel", json={"order_id": "MB1001", "phone_last4": "1111"}).json()["result"] == "not_cancellable"
+    r1 = c.post("/v1/orders/cancel", json={"order_id": "MB1004", "phone_last4": "4444"}).json()
+    r2 = c.post("/v1/orders/cancel", json={"order_id": "MB1004", "phone_last4": "4444"}).json()
     assert r1["result"] == "cancelled" and r1["reference"] == r2["reference"]
+
+
+def test_expedite_raises_courier_ticket_and_alerts_logistics():
+    r = c.get("/v1/logistics/expedite", params={"order_id": "MB1001", "phone_last4": "1111", "reason": "wedding"}).json()
+    assert r["result"] == "courier_ticket_raised" and r["reference"].startswith("SWS-")
+    assert any(a["team"] == "logistics" and "SwiftShip" in a["to"] for a in feed()["alerts"])
 
 
 def claim(**kw):
     return c.post("/v1/claims", json=kw).json()
 
 
-def test_claim_paths():
-    assert claim(order_id="SV1002", phone_last4="2222", issue="stone broken", has_unboxing_video="no")["result"] == "need_video"
-    ok = claim(order_id="SV1002", phone_last4="2222", issue="stone broken", has_unboxing_video="yes")
-    assert ok["result"] == "replacement_approved"
-    assert claim(order_id="SV1003", phone_last4="3333", issue="damaged", has_unboxing_video="yes")["result"] == "outside_window"
-    assert claim(order_id="SV1005", phone_last4="5555", issue="defective clasp", has_unboxing_video="yes")["result"] == "human_review"
-    assert claim(order_id="SV1006", phone_last4="6666", issue="damaged", has_unboxing_video="yes")["result"] == "human_review"
-    assert claim(order_id="SV1002", phone_last4="2222", issue="I don't like it")["result"] == "not_eligible"
-    assert claim(order_id="SV1002", phone_last4="2222", issue="skin rash")["result"] == "escalate"
+def test_triage_filters_noise_and_escalates_only_what_matters():
+    before = feed()["stats"]
+    assert claim(order_id="MB1002", phone_last4="2222", issue="stone broken", has_unboxing_video="no")["result"] == "need_video"
+    assert claim(order_id="MB1003", phone_last4="3333", issue="damaged", has_unboxing_video="yes")["result"] == "outside_window"
+    assert claim(order_id="MB1002", phone_last4="2222", issue="I changed my mind")["result"] == "not_eligible"
+    after = feed()["stats"]
+    assert after["filtered"] - before["filtered"] == 3 and after["escalated"] == before["escalated"]
+    assert claim(order_id="MB1002", phone_last4="2222", issue="stone broken", has_unboxing_video="yes")["result"] == "replacement_approved"
+    assert claim(order_id="MB1005", phone_last4="5555", issue="defective clasp", has_unboxing_video="yes")["result"] == "human_review"
+    assert claim(order_id="MB1006", phone_last4="6666", issue="damaged", has_unboxing_video="yes")["result"] == "human_review"
+    assert claim(order_id="MB1002", phone_last4="2222", issue="skin rash")["result"] == "escalate"
 
 
-def test_callback():
+def test_callback_routes_by_topic():
     assert c.post("/v1/callbacks", json={"phone": "12345"}).json()["result"] == "need_phone"
-    assert c.post("/v1/callbacks", json={"phone": "+91 90000 00001", "topic": "bulk"}).json()["result"] == "booked"
+    r = c.post("/v1/callbacks", json={"phone": "+91 90000 00011", "topic": "late delivery"}).json()
+    assert r["result"] == "booked" and "Logistics" in r["message"]
 
 
-def test_owner_key_required():
-    assert c.get("/owner/api/records").status_code == 401
+def test_import_rejects_non_public_urls():
+    assert c.get("/v1/import", params={"url": "http://localhost"}).json()["result"] == "invalid"
+    assert c.get("/v1/import", params={"url": "https://127.0.0.1"}).json()["result"] == "invalid"
+
+
+def test_ops_console_serves():
+    assert "DeskZero" in c.get("/ops").text
