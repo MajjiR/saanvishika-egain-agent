@@ -1,30 +1,42 @@
-# Submission kit
+# Submission kit: DeskZero
 
-**Agent name:** Saanvi, the Saanvishika Jewellery Assistant
-**Industry:** Retail and e-commerce (D2C imitation jewellery, retail and wholesale)
-**Use case:** One agent for retail shoppers and wholesale buyers: policy answers, orders, damage claims, instant wholesale quotes with owner approval.
+**Agent name:** DeskZero (demo agent "Mira" for Mayura Boutique)
+**Industry:** Retail / D2C e-commerce (jewellery), retail and wholesale
+**Use case:** An AI ops desk for D2C brands: triages every customer message, solves or filters most of them,
+and routes only what truly needs a person to the right team member, with deal negotiation built in.
 
-## Description (150 words max; this is 128)
+**Tagline:** *Only what truly needs a human reaches your team.*
 
-The Saanvishika Co is a real homegrown jewellery brand. Today every wholesale enquiry is a manual WhatsApp
-chat, and buyers who message at night wait until morning or buy elsewhere. Saanvi is an eGain AI Agent that
-serves both customers the brand has. Retail shoppers get answers grounded in the brand's own policies, order
-status, cancellations before dispatch, and damage claims checked against the real 48-hour and 7-day windows.
-Wholesale buyers get an instant tiered quote with a quote number. If they ask for more, Saanvi counter-offers
-the best allowed tier and shows how many more pieces unlock the next one. Anything above the owner's limit goes
-to an Owner Desk for approval. Prices and eligibility live in a rules service, not the prompt, so the agent
-cannot be talked past them. Skin reactions always go to a person.
+## Description (150 words max; this is 146)
 
-**Disclosure:** custom action API (FastAPI on Render) and knowledge pages written for this entry with AI
-assistance. Orders, buyers and claims are fictional.
+I run a D2C jewellery brand doing 1,000-1,500 orders a month. Most messages are the same: where is my order,
+"it's damaged" with no unboxing video, "deliver it sooner", "what's your bulk price". Each one lands on a person.
+DeskZero is an eGain AI Agent that triages every message against the brand's own rules. It solves what it can
+(order status, cancellations, approved replacements, wholesale quotes), filters what policy doesn't allow
+(no-video claims, late claims, change-of-mind returns), and escalates only the rest to the one teammate who owns
+it: support, orders, logistics or sales, by email and WhatsApp. Faster-delivery requests raise a courier ticket.
+Deals negotiate in three tiers: auto-quote within limits, "let me check with my team" above them, and a sales
+lead takeover for 1,000+ pieces. A store-import tool drafts the agent's knowledge from any Shopify store.
 
-## One-minute video script
+**Disclosure:** custom action API (FastAPI on Render), Ops Console and demo storefront (Vercel) written for this
+entry with AI assistance. Mayura Boutique is fictional; product photos are used with the brand owner's permission.
+All orders, people and contacts are demo data.
+
+## Links
+- Demo link: see `links.md`
+- Demo store: https://mayura-boutique-demo.vercel.app
+- Ops Console: https://saanvishika-agent-actions.onrender.com/ops
+
+## One-minute video script (record with the Ops Console open in a second window)
 
 | Time | Screen | Say |
 |---|---|---|
-| 0:00-0:08 | saanvishika.co homepage, the "Wholesale: chat with us on WhatsApp" banner | "This is my jewellery brand. Every wholesale enquiry is a WhatsApp chat I answer by hand, often hours later." |
-| 0:08-0:18 | Demo link: pre-chat, pick Retail. Ask "Do you ship free?" | "Saanvi answers from our real policies." (shows ₹499 free-shipping rule) |
-| 0:18-0:40 | New chat, pick Wholesale. "30 Emerald Screwback Jhumka, can I get 20% off?" | "A buyer asks for 20%. Saanvi can't give that at 30 pieces. It offers 15%, shows 20 more pieces unlock 20%, and issues a real quote number." |
-| 0:40-0:50 | Ask for 35% on 100 pieces, then the Owner Desk tab: the quote waiting, click Approve | "Above my limit, it doesn't guess. It sends the quote to me." |
-| 0:50-0:57 | "I got a rash from the earrings" | "Health issues always go to a person." |
-| 0:57-1:00 | Logo / demo link | "Saanvi: one agent for retail and wholesale, built on eGain." |
+| 0:00-0:07 | You on camera or the store | "I run a D2C jewellery brand, about 1,500 orders a month. My team drowns in the same messages." |
+| 0:07-0:12 | Demo link, pre-chat, "Shopping for myself" | "This is DeskZero, built on eGain." |
+| 0:12-0:22 | "Order MB1002, phone 2222, necklace arrived broken, I want a refund, no unboxing video" | "No video? Mira explains the policy kindly. Nobody on my team is bothered." Cut to Ops Console: *filtered*. |
+| 0:22-0:32 | "Order MB1001, phone 1111, I need it before Friday for a wedding" | "Delivery requests raise a courier ticket automatically and ping logistics." Ops: Logistics lane, SwiftShip email. |
+| 0:32-0:48 | "I'm Lakshmi Retail. 30 Grand Floral AD Stone Jhumka Earrings at 20%?" then "5000 Diamond Look CZ Cluster Choker Necklaces at 40% for Lakshmi Retail" | "Small deals: it counter-offers within my limits. Big deals: my sales lead takes over, with email and WhatsApp." Ops: Sales lane + outbox. |
+| 0:48-0:55 | Ops Console tiles, then "Plug in your store" import | "Every message triaged. Any Shopify store can plug in." |
+| 0:55-1:00 | Tagline | "DeskZero: only what truly needs a human reaches your team." |
+
+Tip: include the shop name in wholesale messages; the agent otherwise asks for it first.
