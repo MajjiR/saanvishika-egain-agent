@@ -60,17 +60,18 @@ def test_orders():
     """Fictional orders, dated relative to now so the demo never goes stale."""
     n = _now()
     return {
-        "SV1001": {"status": "shipped", "item": "Emerald Screwback Jhumka", "value": 1299, "phone_last4": "1111",
-                   "placed": n - timedelta(days=2), "courier": "Delhivery", "awb": "DLV55120931", "eta_days": 3},
-        "SV1002": {"status": "delivered", "item": "Grand Floral AD Stone Jhumka Earrings", "value": 1499, "phone_last4": "2222",
+        "MB1001": {"status": "shipped", "item": "Floral AD Stone Jhumka", "value": 1299, "phone_last4": "1111",
+                   "placed": n - timedelta(days=2), "courier": "SwiftShip Logistics", "awb": "SWS5512093", "eta_days": 3,
+                   "city": "Hyderabad"},
+        "MB1002": {"status": "delivered", "item": "Peacock Kundan Choker Set", "value": 2499, "phone_last4": "2222",
                    "placed": n - timedelta(days=5), "delivered": n - timedelta(hours=20)},
-        "SV1003": {"status": "delivered", "item": "Antique Studs (Screw Back) - Ruby", "value": 1199, "phone_last4": "3333",
+        "MB1003": {"status": "delivered", "item": "Pearl Drop Chandbali", "value": 1099, "phone_last4": "3333",
                    "placed": n - timedelta(days=14), "delivered": n - timedelta(days=10)},
-        "SV1004": {"status": "processing", "item": "Designer Gemstone Neck Patti Ruby", "value": 1099, "phone_last4": "4444",
+        "MB1004": {"status": "processing", "item": "Kundan Maang Tikka", "value": 749, "phone_last4": "4444",
                    "placed": n - timedelta(hours=6)},
-        "SV1005": {"status": "delivered", "item": "Bridal Triple Gemstone CZ Diamond Necklace Set", "value": 4999,
-                   "phone_last4": "5555", "placed": n - timedelta(days=6), "delivered": n - timedelta(days=3)},
-        "SV1006": {"status": "delivered", "item": "Solitaire Drop Stud Earrings (Green)", "value": 659, "phone_last4": "6666",
+        "MB1005": {"status": "delivered", "item": "Diamond-Look CZ Bridal Set", "value": 5999, "phone_last4": "5555",
+                   "placed": n - timedelta(days=6), "delivered": n - timedelta(days=3)},
+        "MB1006": {"status": "delivered", "item": "Emerald Screwback Studs", "value": 799, "phone_last4": "6666",
                    "placed": n - timedelta(days=4), "delivered": n - timedelta(days=1), "prior_claims": 3},
     }
 
