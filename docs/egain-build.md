@@ -45,3 +45,8 @@ fictional data).
 - "30 Emerald Screwback Jhumka, 20% off?" → counter-offer 15%, ₹1,104/piece, quote WQ-1002, "add 20 more
   pieces to unlock 20%".
 - "SV1002, phone 2222, stone fell off, have unboxing video" → claim CL-1002 approved, replacement.
+- Public demo link, signed out: pre-chat shows; "Wholesale or bulk order" → "100 Emerald Screwback Jhumka at
+  35%?" → quote sent for owner approval, confirmed 25% (₹974/piece, ₹97,400), contacts shown.
+
+Note: the Render free instance stores records in SQLite on ephemeral disk, so quote and claim numbers restart
+after a redeploy. Do not redeploy between recording the video and judging.
