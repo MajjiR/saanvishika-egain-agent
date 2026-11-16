@@ -18,7 +18,7 @@ from .store import IST, _now, find_product, open_db, search_products, test_order
 app = FastAPI(title="Saanvishika Agent Actions", version="1.0.0",
               description="Actions for The Saanvishika Co eGain AI Agent. All orders and buyers are fictional.")
 db = open_db()
-API_KEY = os.environ.get("API_KEY", "")
+API_KEY = os.environ.get("ACTION_API_KEY", "")  # optional; off for the public demo (fictional data only)
 OWNER_KEY = os.environ.get("OWNER_KEY", "owner-demo")
 WEB = Path(__file__).parent.parent / "web"
 
