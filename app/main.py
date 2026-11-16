@@ -71,13 +71,13 @@ def contact_line():
 # ---------------------------------------------------------------- triage log + router
 
 def log(kind: str, prefix: str, outcome: str, severity: str, team: str | None, summary: str,
-        dedupe: str = "", **extra) -> dict:
+        dedupe: str = "", category: str = "General", cc: list | None = None, **extra) -> dict:
     """Record one customer request and, if escalated, the alerts the owning team receives.
 
     outcome: auto_resolved | filtered | escalated | awaiting_team | human_takeover
     """
-    rec = db.add(kind, prefix, dedupe, {"outcome": outcome, "status": outcome, "severity": severity,
-                                         "team": team, "summary": summary, **extra})
+    rec = db.add(kind, prefix, dedupe, {"outcome": outcome, "status": outcome, "severity": severity, "team": team,
+                                         "summary": summary, "category": category, "cc": cc or [], **extra})
     if team and not rec.get("repeat") and outcome in ("escalated", "awaiting_team", "human_takeover"):
         member = rules.TEAM[team]
         subject = f"[{severity.upper()}] {rec['id']}: {summary}"
@@ -86,6 +86,10 @@ def log(kind: str, prefix: str, outcome: str, severity: str, team: str | None, s
         if severity in ("high", "urgent"):
             db.add("alert", "AL", "", {"channel": "whatsapp", "to": f"{member['name']} {member['whatsapp']}",
                                        "team": team, "subject": subject, "ref": rec["id"], "status": "sent (simulated)"})
+        for extra_team in cc or []:
+            m = rules.TEAM[extra_team]
+            db.add("alert", "AL", "", {"channel": "email", "to": f"{m['name']} <{m['email']}>", "team": extra_team,
+                                       "subject": f"[FYI] {subject}", "ref": rec["id"], "status": "sent (simulated)"})
     return rec
 
 
@@ -128,7 +132,7 @@ async def wholesale_quote(request: Request):
     if not product["available"]:
         alts, _, _ = search_products(" ".join(product["title"].split()[:3]), limit=2)
         alt = f" Similar in stock now: {alts[0]['title']} ({rupees(alts[0]['price'])})." if alts else ""
-        rec = log("ticket", "TK", "escalated", "low", "orders", f"Restock request: {product['title']} x{qty} from {buyer}",
+        rec = log("ticket", "TK", "escalated", "low", "manufacturing", f"Restock request: {product['title']} x{qty} from {buyer}", category="Restock", cc=["orders"],
                   dedupe=f"restock:{product['id']}:{buyer}")
         return {"result": "out_of_stock", "reference": rec["id"],
                 "message": f"{product['title']} is sold out right now, so I can't quote it. I've logged a restock request "
@@ -145,7 +149,7 @@ async def wholesale_quote(request: Request):
 
     # Tier 3: enterprise volume -> a person takes over.
     if qty >= rules.HUMAN_TAKEOVER_PIECES_FROM:
-        rec = log("quote", "WQ", "human_takeover", "high", "sales", f"Enterprise deal: {deal} from {buyer}",
+        rec = log("quote", "WQ", "human_takeover", "high", "sales", f"Enterprise deal: {deal} from {buyer}", category="Wholesale deal", cc=["manager", "manufacturing"],
                   buyer=buyer, **base)
         lead = rules.TEAM["sales"]
         return {**base, "quote_id": rec["id"], "result": "human_takeover",
@@ -156,7 +160,7 @@ async def wholesale_quote(request: Request):
 
     # Tier 2: above the agent's authority -> "let me check with my team".
     if asked > rules.TEAM_CHECK_DISCOUNT_ABOVE or qty >= rules.TEAM_CHECK_PIECES_FROM:
-        rec = log("quote", "WQ", "awaiting_team", "medium", "owner", f"Approval needed: {deal} from {buyer}",
+        rec = log("quote", "WQ", "awaiting_team", "medium", "manager", f"Approval needed: {deal} from {buyer}", category="Wholesale deal",
                   buyer=buyer, requested_discount=asked, **base)
         return {**base, "quote_id": rec["id"], "result": "team_check",
                 "message": f"Let me check with my team and get back to you. I've sent quote {rec['id']} for approval and "
@@ -166,7 +170,7 @@ async def wholesale_quote(request: Request):
     # Tier 1: within limits -> the agent closes it.
     nxt = rules.next_tier(qty)
     upsell = f" Add {nxt[0] - qty} more pieces to reach {nxt[0]} and unlock {nxt[1]}% off." if nxt else ""
-    rec = log("quote", "WQ", "auto_resolved", "low", None, f"Auto quote: {deal} for {buyer}",
+    rec = log("quote", "WQ", "auto_resolved", "low", None, f"Auto quote: {deal} for {buyer}", category="Wholesale deal",
               buyer=buyer, requested_discount=asked, **base)
     if asked > tier:
         return {**base, "quote_id": rec["id"], "result": "counter_offer",
@@ -218,7 +222,7 @@ async def order_status(request: Request):
         msg = f"Order {oid} ({o['item']}) is on its way with {o['courier']}, tracking {o['awb']}, expected by {eta}."
     else:
         msg = f"Order {oid} ({o['item']}) was delivered on {o['delivered'].strftime('%d %b, %I:%M %p')}."
-    log("ticket", "TK", "auto_resolved", "low", None, f"Order status {oid}: {o['status']}")
+    log("ticket", "TK", "auto_resolved", "low", None, f"Order status {oid}: {o['status']}", category="Order tracking")
     return {"result": o["status"], "order_id": oid, "message": msg}
 
 
@@ -229,11 +233,11 @@ async def order_cancel(request: Request):
     if not o:
         return {"result": "not_found", "message": "I couldn't match that order number with those phone digits."}
     if o["status"] != "processing":
-        log("ticket", "TK", "filtered", "low", None, f"Cancel refused {oid}: already {o['status']}")
+        log("ticket", "TK", "filtered", "low", None, f"Cancel refused {oid}: already {o['status']}", category="Cancellation")
         return {"result": "not_cancellable",
                 "message": f"Order {oid} has already left our warehouse, so it can't be cancelled. If anything is wrong "
                            "when it arrives, I can help you report it."}
-    rec = log("ticket", "TK", "auto_resolved", "low", None, f"Cancelled {oid} before dispatch", dedupe=f"cancel:{oid}")
+    rec = log("ticket", "TK", "auto_resolved", "low", None, f"Cancelled {oid} before dispatch", dedupe=f"cancel:{oid}", category="Cancellation")
     return {"result": "cancelled", "reference": rec["id"],
             "message": f"Done. Order {oid} is cancelled (reference {rec['id']}). Your refund goes to the original payment "
                        "method within 7-10 business days."}
@@ -250,18 +254,14 @@ async def expedite(request: Request):
         return {"result": "already_delivered", "message": f"Order {oid} has already been delivered."}
     if o["status"] == "processing":
         rec = log("ticket", "TK", "escalated", "medium", "orders", f"Priority dispatch request {oid}: {reason}",
-                  dedupe=f"exp:{oid}")
+                  dedupe=f"exp:{oid}", category="Delivery & logistics")
         return {"result": "priority_dispatch_requested", "reference": rec["id"],
                 "message": f"I've flagged order {oid} for priority packing (ticket {rec['id']}) and alerted our orders team. "
                            "I can't promise a date, but it will go out in the first batch it can."}
     courier_ticket = f"SWS-{70000 + len(db.list(1000))}"
     rec = log("ticket", "TK", "escalated", "medium", "logistics",
               f"Expedite {oid} ({o['awb']}): {reason}. Courier ticket {courier_ticket}",
-              dedupe=f"exp:{oid}", courier_ticket=courier_ticket)
-    if not rec.get("repeat"):
-        db.add("alert", "AL", "", {"channel": "email", "to": rules.COURIER["name"] + f" <{rules.COURIER['email']}>",
-                                   "team": "logistics", "subject": f"Expedite request {o['awb']} ({courier_ticket})",
-                                   "ref": rec["id"], "status": "sent (simulated)"})
+              dedupe=f"exp:{oid}", courier_ticket=courier_ticket, category="Delivery & logistics", cc=["vendor"])
     return {"result": "courier_ticket_raised", "reference": rec.get("courier_ticket", courier_ticket),
             "message": f"Your order is already with {o['courier']}, so we can't speed it up from our side, but I've "
                        f"raised ticket {rec.get('courier_ticket', courier_ticket)} with them to prioritise it and told "
@@ -301,7 +301,7 @@ async def claim(request: Request):
 
     if kind == "health":
         rec = log("claim", "CL", "escalated", "urgent", "support", f"Skin reaction reported on {oid}: {issue}",
-                  dedupe=f"{oid}:health")
+                  dedupe=f"{oid}:health", category="Health & safety", cc=["manager", "manufacturing"])
         return {"result": "escalate", "reference": rec["id"],
                 "message": "I'm sorry you're dealing with that. Please take the jewellery off, and see a doctor if it's "
                            "painful or spreading. I can't give medical advice, so I've marked this urgent for "
@@ -309,7 +309,7 @@ async def claim(request: Request):
     if o["status"] != "delivered":
         return {"result": "not_delivered", "message": f"Order {oid} hasn't been delivered yet. I can check where it is."}
     if kind == "mind":
-        log("claim", "CL", "filtered", "low", None, f"Change-of-mind return refused {oid}")
+        log("claim", "CL", "filtered", "low", None, f"Change-of-mind return refused {oid}", category="Damage & returns")
         return {"result": "not_eligible",
                 "message": "Our policy covers damaged, defective or wrong items, so change-of-mind returns aren't possible. "
                            "I'd be happy to help you find a design you'll love instead."}
@@ -320,29 +320,31 @@ async def claim(request: Request):
     window = timedelta(hours=rules.TRANSIT_ISSUE_HOURS) if kind == "transit" else timedelta(days=rules.PRODUCT_ISSUE_DAYS)
     if age > window:
         limit = f"{rules.TRANSIT_ISSUE_HOURS} hours" if kind == "transit" else f"{rules.PRODUCT_ISSUE_DAYS} days"
-        log("claim", "CL", "filtered", "low", None, f"Late claim refused {oid}: delivered {age.days} days ago")
+        log("claim", "CL", "filtered", "low", None, f"Late claim refused {oid}: delivered {age.days} days ago", category="Damage & returns")
         return {"result": "outside_window",
                 "message": f"Order {oid} was delivered {age.days} days ago, and this kind of issue must be reported within "
                            f"{limit}, so I can't open a claim. Our care guide may help keep your other pieces looking new."}
     if not video:
-        log("claim", "CL", "filtered", "low", None, f"Damage claim without unboxing video {oid}: {issue}")
+        log("claim", "CL", "filtered", "low", None, f"Damage claim without unboxing video {oid}: {issue}", category="Damage & returns")
         return {"result": "need_video",
                 "message": "I'm sorry it arrived like that. Our policy needs an unboxing video to approve damage claims, "
                            "because it protects you and us from transit disputes. If you have one, reply 'yes' and I'll "
                            "process it right away. Without it, I'm not able to approve a replacement."}
     if o.get("prior_claims", 0) >= rules.REPEAT_CLAIM_LIMIT:
-        rec = log("claim", "CL", "escalated", "medium", "orders", f"Repeat claimant {oid}: {issue}", dedupe=f"{oid}:review")
+        rec = log("claim", "CL", "escalated", "medium", "manager", f"Repeat claimant {oid}: {issue}", dedupe=f"{oid}:review", category="Damage & returns")
         return {"result": "human_review", "reference": rec["id"],
                 "message": f"I've logged your claim as {rec['id']}. A team member will review it personally and reply "
                            "within one working day."}
     if o["value"] > rules.AUTO_REPLACE_MAX_VALUE:
         rec = log("claim", "CL", "escalated", "medium", "orders", f"High-value claim {oid} ({rupees(o['value'])}): {issue}",
-                  dedupe=f"{oid}:{kind}")
+                  dedupe=f"{oid}:{kind}", category="Product quality" if kind == "product" else "Damage & returns",
+                  cc=["manufacturing"] if kind == "product" else None)
         return {"result": "human_review", "reference": rec["id"],
                 "message": f"Claim {rec['id']} is registered. Because this is a {rupees(o['value'])} order, "
                            f"{rules.TEAM['orders']['name']} from our orders team checks your video first and confirms a "
                            "replacement or refund within one working day."}
-    rec = log("claim", "CL", "auto_resolved", "low", None, f"Replacement approved {oid}: {issue}", dedupe=f"{oid}:{kind}")
+    rec = log("claim", "CL", "auto_resolved", "low", None, f"Replacement approved {oid}: {issue}", dedupe=f"{oid}:{kind}",
+              category="Product quality" if kind == "product" else "Damage & returns")
     return {"result": "replacement_approved", "reference": rec["id"],
             "message": f"Approved. Claim {rec['id']}: a replacement {o['item']} ships within 1-3 business days at no cost. "
                        f"Please email your unboxing video to {rules.CONTACT['email']} quoting {rec['id']}."}
@@ -363,7 +365,7 @@ async def callback(request: Request):
     topic = (p.get("topic") or "general").lower()
     team = next((t for k, t in TOPIC_TEAM.items() if k in topic), "support")
     rec = log("ticket", "CB", "escalated", "medium", team, f"Callback ···{phone[-4:]}: {topic}. {p.get('summary', '')}",
-              dedupe=f"{phone}:{topic}")
+              dedupe=f"{phone}:{topic}", category="Callback")
     who = rules.TEAM[team]
     return {"result": "booked", "reference": rec["id"],
             "message": f"Callback booked (reference {rec['id']}). {who['name']} from {who['role']} will call you during "
@@ -430,7 +432,12 @@ def ops_feed():
     requests_ = [r for r in recs if r["id"][:2] in ("WQ", "CL", "TK", "CB")]
     alerts = [r for r in recs if r["id"].startswith("AL")]
     count = lambda *o: sum(1 for r in requests_ if r.get("status") in o)
-    return {"brand": rules.BRAND, "team": rules.TEAM, "requests": requests_, "alerts": alerts,
+    cats = {c: {"total": 0, "auto": 0, "filtered": 0, "escalated": 0} for c in rules.CATEGORIES}
+    for r in requests_:
+        c = cats.setdefault(r.get("category", "General"), {"total": 0, "auto": 0, "filtered": 0, "escalated": 0})
+        c["total"] += 1
+        c["auto" if r["status"] == "auto_resolved" else "filtered" if r["status"] == "filtered" else "escalated"] += 1
+    return {"brand": rules.BRAND, "team": rules.TEAM, "categories": cats, "requests": requests_, "alerts": alerts,
             "stats": {"total": len(requests_), "auto": count("auto_resolved"), "filtered": count("filtered"),
                       "escalated": count("escalated", "awaiting_team", "human_takeover", "approved", "declined")}}
 
@@ -443,6 +450,47 @@ def ops_decide(rid: str, decision: str):
     if not rec or rec.get("status") != "awaiting_team":
         return {"result": "not_pending"}
     return {"result": "ok", "record": db.update(rid.upper(), status="approved" if decision == "approve" else "declined")}
+
+
+SAMPLE_DAY = [
+    ("ticket", "TK", "auto_resolved", "low", None, "Order status MB2041: out for delivery in Pune", "Order tracking", None),
+    ("ticket", "TK", "auto_resolved", "low", None, "Order status MB2044: shipped, tracking SWS5519920", "Order tracking", None),
+    ("ticket", "TK", "auto_resolved", "low", None, "Order status MB2050: packed, ships tomorrow", "Order tracking", None),
+    ("ticket", "TK", "auto_resolved", "low", None, "Order status MB2052: delivered yesterday 6:40 PM", "Order tracking", None),
+    ("claim", "CL", "filtered", "low", None, "Damage claim without unboxing video MB2031: 'jhumka bent'", "Damage & returns", None),
+    ("claim", "CL", "filtered", "low", None, "Damage claim without unboxing video MB2037: 'stone missing'", "Damage & returns", None),
+    ("claim", "CL", "filtered", "low", None, "Change-of-mind return refused MB2019", "Damage & returns", None),
+    ("claim", "CL", "filtered", "low", None, "Late claim refused MB1988: delivered 12 days ago", "Damage & returns", None),
+    ("claim", "CL", "auto_resolved", "low", None, "Replacement approved MB2040: earring back broken (video verified)", "Product quality", None),
+    ("ticket", "TK", "filtered", "low", None, "Cancel refused MB2044: already shipped", "Cancellation", None),
+    ("ticket", "TK", "auto_resolved", "low", None, "Cancelled MB2055 before dispatch", "Cancellation", None),
+    ("ticket", "TK", "escalated", "medium", "logistics", "Expedite MB2044 (SWS5519920): engagement on Saturday. Courier ticket SWS-70112", "Delivery & logistics", ["vendor"]),
+    ("ticket", "TK", "escalated", "medium", "logistics", "Address correction MB2048: wrong PIN code, reroute requested", "Delivery & logistics", ["vendor"]),
+    ("claim", "CL", "escalated", "medium", "manufacturing", "High-value claim MB2029 (₹5,999): clasp defective on bridal set", "Product quality", ["orders"]),
+    ("claim", "CL", "escalated", "urgent", "support", "Skin reaction reported on MB2033: redness after wearing studs", "Health & safety", ["manager", "manufacturing"]),
+    ("claim", "CL", "escalated", "medium", "manager", "Repeat claimant MB2036: 4th damage claim in 60 days", "Damage & returns", None),
+    ("quote", "WQ", "auto_resolved", "low", None, "Auto quote: 30 x Grand Floral AD Stone Jhumka Earrings at 15% (asked 20%) for Meera Boutique", "Wholesale deal", None),
+    ("quote", "WQ", "auto_resolved", "low", None, "Auto quote: 60 x Diamond Look CZ Cluster Choker at 20% for Glow Studio", "Wholesale deal", None),
+    ("quote", "WQ", "awaiting_team", "medium", "manager", "Approval needed: 150 x Victorian Peacock Lakshmi Kasu Necklace, asked 35%, from Shringar Stores", "Wholesale deal", None),
+    ("quote", "WQ", "human_takeover", "high", "sales", "Enterprise deal: 5,000 x Diamond Look CZ Cluster Choker (₹56.2L at 25%), asked 40%, from Lakshmi Retail (12 stores)", "Wholesale deal", ["manager", "manufacturing"]),
+    ("ticket", "TK", "escalated", "low", "manufacturing", "Restock request: Green Gemstone Panchloha Necklace x40 from Rangoli Resellers", "Restock", ["orders"]),
+    ("ticket", "TK", "escalated", "low", "manufacturing", "Restock request: Solitaire Drop Stud Earrings (Yellow) x25 from Meera Boutique", "Restock", ["orders"]),
+    ("ticket", "CB", "escalated", "medium", "sales", "Callback ···4821: custom design for 200 return gifts", "Callback", None),
+]
+
+
+@app.post("/ops/api/sample-day")
+def ops_sample_day():
+    for kind, prefix, outcome, sev, team, summary, cat, cc in SAMPLE_DAY:
+        log(kind, prefix, outcome, sev, team, summary, category=cat, cc=cc, sample=True)
+    return {"result": "ok", "added": len(SAMPLE_DAY)}
+
+
+@app.post("/ops/api/reset")
+def ops_reset():
+    db.conn.execute("DELETE FROM records")
+    db.conn.commit()
+    return {"result": "ok"}
 
 
 @app.get("/ops", response_class=HTMLResponse, include_in_schema=False)

@@ -40,7 +40,9 @@ def test_tier3_human_takeover_routes_to_sales_with_whatsapp():
     r = q(product="Floral AD Stone Jhumka", quantity=5000)
     assert r["result"] == "human_takeover"
     alerts = [a for a in feed()["alerts"] if a["ref"] == r["quote_id"]]
-    assert {a["channel"] for a in alerts} == {"email", "whatsapp"} and all(a["team"] == "sales" for a in alerts)
+    sales = [a for a in alerts if a["team"] == "sales"]
+    assert {a["channel"] for a in sales} == {"email", "whatsapp"}
+    assert {a["team"] for a in alerts} >= {"sales", "manager", "manufacturing"}
 
 
 def test_below_minimum_and_ambiguous():
@@ -64,7 +66,8 @@ def test_cancel_rules():
 def test_expedite_raises_courier_ticket_and_alerts_logistics():
     r = c.get("/v1/logistics/expedite", params={"order_id": "MB1001", "phone_last4": "1111", "reason": "wedding"}).json()
     assert r["result"] == "courier_ticket_raised" and r["reference"].startswith("SWS-")
-    assert any(a["team"] == "logistics" and "SwiftShip" in a["to"] for a in feed()["alerts"])
+    teams = {a["team"] for a in feed()["alerts"] if a["ref"].startswith("TK")}
+    assert {"logistics", "vendor"} <= teams
 
 
 def claim(**kw):
@@ -102,4 +105,13 @@ def test_ops_console_serves():
 def test_sold_out_logs_restock_request_and_suggests_alternative():
     r = q(product="Solitaire Drop Stud Earrings Yellow", quantity=20)
     assert r["result"] == "out_of_stock" and r["reference"].startswith("TK")
-    assert any(x["team"] == "orders" and "Restock" in x["summary"] for x in feed()["requests"])
+    assert any(x["team"] == "manufacturing" and x["category"] == "Restock" for x in feed()["requests"])
+
+
+def test_sample_day_and_reset():
+    c.post("/ops/api/reset")
+    assert c.post("/ops/api/sample-day").json()["added"] > 20
+    f = feed()
+    assert f["categories"]["Wholesale deal"]["total"] >= 4 and f["stats"]["filtered"] >= 5
+    c.post("/ops/api/reset")
+    assert feed()["stats"]["total"] == 0

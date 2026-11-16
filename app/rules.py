@@ -35,8 +35,12 @@ TEAM = {
     "orders":    {"name": "Arjun", "role": "Orders & Returns", "email": "orders@mayura-demo.in", "whatsapp": "+91 90000 00002"},
     "logistics": {"name": "Ravi", "role": "Logistics", "email": "logistics@mayura-demo.in", "whatsapp": "+91 90000 00003"},
     "sales":     {"name": "Ananya", "role": "Wholesale Sales Lead", "email": "sales@mayura-demo.in", "whatsapp": "+91 90000 00004"},
-    "owner":     {"name": "Owner", "role": "Founder", "email": "owner@mayura-demo.in", "whatsapp": "+91 90000 00005"},
+    "manager":   {"name": "Kavya", "role": "Operations Manager", "email": "manager@mayura-demo.in", "whatsapp": "+91 90000 00005"},
+    "vendor":    {"name": "SwiftShip & suppliers", "role": "Vendors & Courier", "email": "ops@swiftship-demo.in", "whatsapp": "+91 90000 00006"},
+    "manufacturing": {"name": "Meena", "role": "Manufacturing & QC", "email": "production@mayura-demo.in", "whatsapp": "+91 90000 00007"},
 }
+CATEGORIES = ["Order tracking", "Cancellation", "Delivery & logistics", "Damage & returns", "Product quality",
+              "Health & safety", "Wholesale deal", "Restock", "Callback"]
 COURIER = {"name": "SwiftShip Logistics (demo)", "email": "ops@swiftship-demo.in"}
 
 CONTACT = {
