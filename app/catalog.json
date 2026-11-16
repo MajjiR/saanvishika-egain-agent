@@ -30,7 +30,7 @@
   "title": "Green Gemstone Panchloha Necklace",
   "price": 1699.0,
   "compare_at": 3599.0,
-  "available": true,
+  "available": false,
   "tags": [
    "Necklaces"
   ],
@@ -69,7 +69,7 @@
   "title": "Solitaire Drop Stud Earrings (Yellow)",
   "price": 659.0,
   "compare_at": 949.0,
-  "available": true,
+  "available": false,
   "tags": [
    "Earrings"
   ],

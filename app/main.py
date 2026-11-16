@@ -126,7 +126,14 @@ async def wholesale_quote(request: Request):
         return {"result": "not_found", "message": "I couldn't find that design in our catalogue. Please send the product name "
                                                   "as shown on the store."}
     if not product["available"]:
-        return {"result": "out_of_stock", "message": f"{product['title']} is out of stock right now. Want a similar design?"}
+        alts, _, _ = search_products(" ".join(product["title"].split()[:3]), limit=2)
+        alt = f" Similar in stock now: {alts[0]['title']} ({rupees(alts[0]['price'])})." if alts else ""
+        rec = log("ticket", "TK", "escalated", "low", "orders", f"Restock request: {product['title']} x{qty} from {buyer}",
+                  dedupe=f"restock:{product['id']}:{buyer}")
+        return {"result": "out_of_stock", "reference": rec["id"],
+                "message": f"{product['title']} is sold out right now, so I can't quote it. I've logged a restock request "
+                           f"(reference {rec['id']}) with our orders team, and they'll message you as soon as it's back, "
+                           f"usually within 2-3 weeks.{alt}"}
 
     tier = rules.tier_for(qty)
     unit = round(product["price"] * (100 - tier) / 100)

@@ -97,3 +97,9 @@ def test_import_rejects_non_public_urls():
 
 def test_ops_console_serves():
     assert "DeskZero" in c.get("/ops").text
+
+
+def test_sold_out_logs_restock_request_and_suggests_alternative():
+    r = q(product="Solitaire Drop Stud Earrings Yellow", quantity=20)
+    assert r["result"] == "out_of_stock" and r["reference"].startswith("TK")
+    assert any(x["team"] == "orders" and "Restock" in x["summary"] for x in feed()["requests"])
